@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'roboto',sans-serif;
+    background:var(--background);
+    color:var(--text);
+    overflow-x:hidden;
+
+}
+
+img{
+
+    max-width:100%;
+    display:block;
+
+}
+
+a{
+
+    text-decoration:none;
+    color:inherit;
+
+}
+
+button{
+
+    font-family:'Poppins',sans-serif;
+    cursor:pointer;
+    transition:var(--transition);
+
+}
+
+input,
+select{
+
+    font-family:'Poppins',sans-serif;
+    outline:none;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+.container{
+
+    width:92%;
+    max-width:1500px;
+    margin:auto;
+
+}
+
+.section{
+
+    padding:90px 0;
+
+}
+
+.section-title{
+
+    text-align:center;
+    margin-bottom:60px;
+
+}
+
+.section-title h2{
+
+    font-size:48px;
+    color:var(--primary);
+    margin-bottom:12px;
+    font-weight:700;
+
+}
+
+.section-title p{
+
+    color:var(--text-light);
+    font-size:18px;
+
+}
+
+/* Buttons */
+
+.primary-btn{
+
+    background:var(--primary);
+    color:#fff;
+    padding:16px 36px;
+    border:none;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:600;
+    transition:var(--transition);
+
+}
+
+.primary-btn:hover{
+
+    background:var(--primary-dark);
+    transform:translateY(-3px);
+
+}
+
+.secondary-btn{
+
+    background:#fff;
+    border:2px solid var(--primary);
+    color:var(--primary);
+    padding:16px 36px;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:600;
+    transition:var(--transition);
+
+}
+
+.secondary-btn:hover{
+
+    background:var(--primary);
+    color:#fff;
+
+}
+
+/* Card */
+
+.card{
+
+    background:#fff;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+
+}
+
+@media(max-width:992px){
+
+.container{
+
+width:94%;
+
+}
+
+.section{
+
+padding:70px 0;
+
+}
+
+.section-title h2{
+
+font-size:36px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.section-title h2{
+
+font-size:30px;
+
+}
+
+.section-title p{
+
+font-size:16px;
+
+}
+
+}

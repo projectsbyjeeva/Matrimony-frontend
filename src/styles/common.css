@@ -1,0 +1,38 @@
+.container{
+    width:90%;
+    max-width:1280px;
+    margin:auto;
+}
+
+.section{
+    padding:70px 0;
+}
+
+.btn{
+    padding:14px 28px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:#F00000;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#C40000;
+}
+
+.btn-secondary{
+    background:#FFC107;
+    color:#222;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
