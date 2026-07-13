@@ -1,0 +1,375 @@
+/* ==========================================================
+   RESPONSIVE.CSS
+   Valluvan Matrimony
+========================================================== */
+
+
+/* ==========================
+   1400px
+========================== */
+
+@media (max-width:1400px){
+
+.container{
+    max-width:1200px;
+}
+
+}
+
+
+/* ==========================
+   1200px
+========================== */
+
+@media (max-width:1200px){
+
+.container{
+    max-width:1000px;
+}
+
+/* Hero */
+
+.hero-content{
+    gap:50px;
+}
+
+/* Search Filter */
+
+.search-filter-bar{
+    grid-template-columns:repeat(3,1fr);
+}
+
+/* Profile Cards */
+
+.profiles-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+/* Register */
+
+.register-popup{
+    width:95%;
+}
+
+}
+
+
+/* ==========================
+   992px
+========================== */
+
+@media (max-width:992px){
+
+.container{
+    max-width:95%;
+}
+
+/* Navbar */
+
+.nav-menu{
+    display:none;
+}
+
+.mobile-menu{
+    display:block;
+}
+
+.login-btn{
+    display:none;
+}
+
+/* Hero */
+
+.hero-content{
+    flex-direction:column;
+    text-align:center;
+}
+
+.hero-left,
+.hero-right{
+    width:100%;
+}
+
+/* Statistics */
+
+.statistics-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+/* Features */
+
+.features-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+/* Featured Profiles */
+
+.featured-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+/* Footer */
+
+.footer-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+/* Register */
+
+.register-popup{
+    width:96%;
+    padding:30px;
+}
+
+}
+
+
+/* ==========================
+   768px
+========================== */
+
+@media (max-width:768px){
+
+.hero{
+    padding:110px 0 50px;
+    overflow:hidden;
+}
+
+.hero-container{
+    grid-template-columns:1fr;
+    gap:35px;
+    text-align:center;
+}
+
+.hero-content{
+    order:1;
+}
+
+.hero-image-wrapper{
+    order:2;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+/* Decorative circles */
+
+.circle-one{
+    width:180px;
+    height:180px;
+    top:-70px;
+    right:-80px;
+}
+
+.circle-two{
+    width:170px;
+    height:170px;
+    left:-60px;
+    bottom:-50px;
+}
+
+/* Image */
+
+.hero-image{
+    width:100%;
+    max-width:300px;
+    height:360px;
+    border-radius:24px;
+}
+
+/* Hide floating cards */
+
+.top-card,
+.bottom-card{
+    display:none;
+}
+
+/* Text */
+
+.hero-content h1{
+    font-size:38px;
+    line-height:46px;
+}
+
+.hero-content p{
+    font-size:16px;
+    line-height:28px;
+    margin:20px auto 30px;
+}
+
+.hero-buttons{
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+.primary-btn,
+.secondary-btn{
+    width:230px;
+}
+
+.hero-features{
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+.feature-card{
+    width:100%;
+    max-width:300px;
+    justify-content:center;
+}
+}
+
+/* ==========================
+   576px
+========================== */
+
+@media (max-width:576px){
+
+.container{
+    padding:0 12px;
+}
+
+/* Navbar */
+
+.logo-text h2{
+    font-size:18px;
+}
+
+.logo-text span{
+    font-size:10px;
+}
+
+.register-btn{
+    display:none;
+}
+
+/* Hero */
+
+.hero h1{
+    font-size:28px;
+}
+
+.hero p{
+    font-size:15px;
+}
+
+/* Search */
+
+.search-filter-bar{
+    padding:18px;
+}
+
+.filter-item label{
+    font-size:13px;
+}
+
+.filter-item select{
+    font-size:14px;
+}
+
+/* Profile Card */
+
+.profile-card{
+    width:100%;
+}
+
+/* Login */
+
+.login-popup{
+    padding:20px;
+}
+
+/* Register */
+
+.register-popup{
+    padding:18px;
+}
+
+.register-header h2{
+    font-size:26px;
+}
+
+.register-popup h3{
+    font-size:22px;
+}
+
+.form-group input,
+.form-group select{
+    height:42px;
+}
+
+.register-submit{
+    width:180px;
+}
+
+}
+
+
+/* ==========================
+   400px
+========================== */
+
+@media (max-width:400px){
+
+.hero h1{
+    font-size:24px;
+}
+
+.logo-text h2{
+    font-size:16px;
+}
+
+.register-submit{
+    width:160px;
+}
+
+.login-popup{
+    padding:18px;
+}
+
+.register-popup{
+    padding:15px;
+}
+
+@media (max-width:480px){
+
+.circle-one{
+    display:none;
+}
+
+.circle-two{
+    display:none;
+}
+
+.hero-image{
+    max-width:260px;
+    height:320px;
+}
+
+.hero-content h1{
+    font-size:32px;
+    line-height:40px;
+}
+
+.hero-content p{
+    font-size:15px;
+    line-height:25px;
+}
+
+.hero-badge{
+    font-size:13px;
+    padding:10px 15px;
+}
+
+.primary-btn,
+.secondary-btn{
+    width:210px;
+}
+}
+
+}

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./Register.css";
 import { FaTimes } from "react-icons/fa";
 
@@ -7,13 +8,28 @@ type RegisterProps = {
 };
 
 export default function Register({ open, onClose }: RegisterProps) {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
+
   if (!open) return null;
 
   return (
     <div className="register-overlay">
       <div className="register-popup">
 
-        <button className="close-btn" onClick={onClose}>
+        <button
+          className="close-btn"
+          onClick={onClose}
+        >
           <FaTimes />
         </button>
 
@@ -26,13 +42,13 @@ export default function Register({ open, onClose }: RegisterProps) {
 
         <h3>Create Your Profile</h3>
 
-        <span className="register-subtitle">
+        <p className="register-subtitle">
           Join thousands of happy couples
-        </span>
+        </p>
 
         <form>
 
-          {/* Profile For & Gender */}
+          {/* Row 1 */}
 
           <div className="form-row">
 
@@ -57,37 +73,51 @@ export default function Register({ open, onClose }: RegisterProps) {
 
           </div>
 
-          {/* Name */}
+          {/* Row 2 */}
 
-          <div className="form-group">
-            <label>Full Name</label>
-            <input
-              type="text"
-              placeholder="Enter Full Name"
-            />
+          <div className="form-row">
+
+            <div className="form-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                placeholder="Enter Full Name"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Mobile Number</label>
+              <input
+                type="tel"
+                placeholder="Enter Mobile Number"
+              />
+            </div>
+
           </div>
 
-          {/* Email */}
+          {/* Row 3 */}
 
-          <div className="form-group">
-            <label>Email Address</label>
-            <input
-              type="email"
-              placeholder="Enter Email Address"
-            />
+          <div className="form-row">
+
+            <div className="form-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                placeholder="Enter Email Address"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Create Password"
+              />
+            </div>
+
           </div>
 
-          {/* Mobile */}
-
-          <div className="form-group">
-            <label>Mobile Number</label>
-            <input
-              type="tel"
-              placeholder="Enter Mobile Number"
-            />
-          </div>
-
-          {/* Country & Location */}
+          {/* Row 4 */}
 
           <div className="form-row">
 
@@ -114,7 +144,7 @@ export default function Register({ open, onClose }: RegisterProps) {
 
           </div>
 
-          {/* Religion & Community */}
+          {/* Row 5 */}
 
           <div className="form-row">
 
@@ -138,16 +168,6 @@ export default function Register({ open, onClose }: RegisterProps) {
               </select>
             </div>
 
-          </div>
-
-          {/* Password */}
-
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Create Password"
-            />
           </div>
 
           <button

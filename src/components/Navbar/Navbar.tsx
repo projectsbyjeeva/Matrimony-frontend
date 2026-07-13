@@ -1,6 +1,7 @@
+import { useState } from "react";
 import "./Navbar.css";
 import { FaUserCircle } from "react-icons/fa";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 
 type NavbarProps = {
@@ -12,8 +13,14 @@ export default function Navbar({
   onLoginClick,
   onRegisterClick,
 }: NavbarProps) {
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header className="navbar">
+
       <div className="container navbar-container">
 
         {/* Logo */}
@@ -25,7 +32,7 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Desktop Menu */}
 
         <nav className="nav-menu">
 
@@ -37,17 +44,17 @@ export default function Navbar({
             Search
           </NavLink>
 
-          <button className="nav-link">
+          <NavLink to="/membership" className="nav-link">
             Membership
-          </button>
+          </NavLink>
 
-          <button className="nav-link">
+          <NavLink to="/stories" className="nav-link">
             Success Stories
-          </button>
+          </NavLink>
 
-          <button className="nav-link">
+          <NavLink to="/contact" className="nav-link">
             Contact
-          </button>
+          </NavLink>
 
         </nav>
 
@@ -70,13 +77,63 @@ export default function Navbar({
             Register Free
           </button>
 
-          <button className="mobile-menu">
-            <HiOutlineMenuAlt3 />
+          <button
+            className="mobile-menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <HiOutlineX /> : <HiOutlineMenuAlt3 />}
           </button>
 
         </div>
 
       </div>
+
+      {/* Mobile Navigation */}
+
+      <div className={`mobile-nav ${menuOpen ? "show" : ""}`}>
+
+        <NavLink to="/" end onClick={closeMenu}>
+          Home
+        </NavLink>
+
+        <NavLink to="/search" onClick={closeMenu}>
+          Search
+        </NavLink>
+
+        <NavLink to="/membership" onClick={closeMenu}>
+          Membership
+        </NavLink>
+
+        <NavLink to="/stories" onClick={closeMenu}>
+          Success Stories
+        </NavLink>
+
+        <NavLink to="/contact" onClick={closeMenu}>
+          Contact
+        </NavLink>
+
+        <button
+          className="mobile-login"
+          onClick={()=>{
+            closeMenu();
+            onLoginClick();
+          }}
+        >
+          Login
+        </button>
+
+        <button
+          className="mobile-register"
+          onClick={()=>{
+            closeMenu();
+            onRegisterClick();
+          }}
+        >
+          Register Free
+        </button>
+
+      </div>
+
     </header>
   );
 }
