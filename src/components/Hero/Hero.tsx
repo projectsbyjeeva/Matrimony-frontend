@@ -5,7 +5,8 @@ import {
   FaUserCheck,
 } from "react-icons/fa";
 
-// import hero from "../../assets/images/hero.png";
+
+import hero from "../../assets/images/cp-1.png";
 
 export default function Hero() {
   return (
@@ -76,24 +77,23 @@ export default function Hero() {
 
           <div className="hero-image">
 
-            {/*
-            <img
-              src={hero}
-              alt="Bride Groom"
-            />
-            */}
+           <img
+  src={hero}
+  alt="Bride and Groom"
+  className="hero-img"
+/>
 
           </div>
 
-          <div className="floating-card top-card">
+          {/* <div className="floating-card top-card">
             <h2>25K+</h2>
             <p>Happy Couples</p>
-          </div>
+          </div> */}
 
-          <div className="floating-card bottom-card">
+          {/* <div className="floating-card bottom-card">
             <h2>100%</h2>
             <p>Verified Profiles</p>
-          </div>
+          </div> */}
 
         </div>
 

@@ -1,108 +1,176 @@
-.profiles{
-    padding:100px 0;
-    background:#fff;
+.profiles {
+    padding: 100px 0;
+    background: #fff;
 }
 
-.profiles-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:30px;
+.profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
 }
 
-.profile-card{
-    background:#fff;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-    transition:.35s;
+.profile-card {
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.profile-card:hover{
-    transform:translateY(-8px);
+.profile-card:hover {
+    transform: translateY(-8px);
 }
 
-.profile-image{
-    position:relative;
+.profile-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f5f5f5;
 }
 
-.profile-image img{
-    width:100%;
-    height:320px;
-    object-fit:cover;
+.profile-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* Keeps the face area visible */
+    object-position: center 20%;
+    transition: transform 0.4s ease;
 }
 
-.like-btn{
-    position:absolute;
-    top:15px;
-    right:15px;
-    width:45px;
-    height:45px;
-    border:none;
-    border-radius:50%;
-    background:#fff;
-    color:var(--primary);
-    cursor:pointer;
-    box-shadow:var(--shadow);
+.profile-card:hover .profile-image img {
+    transform: scale(1.04);
 }
 
-.profile-content{
-    padding:25px;
+.profile-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #faf1ea;
+    color: #9d0b35;
 }
 
-.profile-content h3{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:20px;
-    color:var(--primary);
+.profile-placeholder svg {
+    font-size: 55px;
 }
 
-.profile-content span{
-    color:#777;
-    font-size:15px;
-    font-weight:500;
+.profile-placeholder span {
+    font-size: 14px;
 }
 
-.profile-content p{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:15px;
-    color:#555;
+.like-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--primary);
+    cursor: pointer;
+    box-shadow: var(--shadow);
 }
 
-.profile-content svg{
-    color:var(--secondary);
+.profile-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
 }
 
-.view-btn{
-    width:100%;
-    margin-top:20px;
-    height:50px;
-    background:var(--primary);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
+.profile-content h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 0 0 20px;
+    color: var(--primary);
 }
 
-.view-btn:hover{
-    background:var(--primary-dark);
+.profile-content h3 span {
+    flex-shrink: 0;
+    color: #777;
+    font-size: 15px;
+    font-weight: 500;
 }
 
-@media(max-width:1100px){
-
-.profiles-grid{
-grid-template-columns:repeat(2,1fr);
+.profile-content p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 15px;
+    color: #555;
 }
 
+.profile-content p svg {
+    flex-shrink: 0;
+    color: var(--secondary);
 }
 
-@media(max-width:768px){
-
-.profiles-grid{
-grid-template-columns:1fr;
+.view-btn {
+    width: 100%;
+    height: 50px;
+    margin-top: auto;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
+.view-btn:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 1100px) {
+    .profiles-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .profiles {
+        padding: 70px 0;
+    }
+
+    .profiles-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .profile-image {
+        aspect-ratio: 16 / 11;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-content {
+        padding: 20px;
+    }
+
+    .profile-content h3 {
+        font-size: 19px;
+    }
+
+    .like-btn {
+        width: 40px;
+        height: 40px;
+    }
 }

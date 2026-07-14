@@ -1,10 +1,10 @@
 import "./FeaturedProfiles.css";
 
-// import bride1 from "../../assets/images/bride1.jpg";
-// import groom1 from "../../assets/images/groom1.jpg";
-// import bride2 from "../../assets/images/bride2.jpg";
-// import groom2 from "../../assets/images/groom2.jpg";
-// import bride3 from "../../assets/images/bride3.jpg";
+ import bride1 from "../../assets/images/bride-1.png";
+import groom1 from "../../assets/images/groom-1.png";
+ import bride2 from "../../assets/images/bride-2.png";
+import groom2 from "../../assets/images/groom-2.png";
+import bride3 from "../../assets/images/bride-3.png";
 // import groom3 from "../../assets/images/groom3.jpg";
 
 import {
@@ -16,7 +16,7 @@ import {
 
 const profiles = [
   {
-    // image: bride1,
+     image: bride1,
     name: "Priya",
     age: "24 Years",
     city: "Chennai",
@@ -24,7 +24,7 @@ const profiles = [
     job: "Software Engineer"
   },
   {
-    // image: groom1,
+     image: groom1,
     name: "Arun",
     age: "28 Years",
     city: "Coimbatore",
@@ -32,7 +32,7 @@ const profiles = [
     job: "Business Owner"
   },
   {
-    // image: bride2,
+    image: bride2,
     name: "Divya",
     age: "25 Years",
     city: "Madurai",
@@ -40,7 +40,7 @@ const profiles = [
     job: "IT Professional"
   },
   {
-    // image: groom2,
+     image: groom2,
     name: "Karthik",
     age: "29 Years",
     city: "Salem",
@@ -48,7 +48,7 @@ const profiles = [
     job: "Civil Engineer"
   },
   {
-    // image: bride3,
+     image: bride3,
     name: "Harini",
     age: "23 Years",
     city: "Erode",

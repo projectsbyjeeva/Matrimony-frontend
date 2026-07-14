@@ -1,87 +1,75 @@
 import "./Features.css";
 
 import {
-  FaUserCheck,
-  FaSearch,
+  FaShieldAlt,
   FaLock,
+  FaSearch,
   FaComments,
-  FaHandshake,
-  FaHeart,
+  FaCrown,
+  FaHeadset,
 } from "react-icons/fa";
 
 const features = [
   {
-    icon: <FaUserCheck />,
+    icon: <FaShieldAlt />,
     title: "Verified Profiles",
-    desc: "Every profile is manually verified for authenticity and trust.",
-  },
-  {
-    icon: <FaSearch />,
-    title: "Smart Match",
-    desc: "Advanced search filters help you find your perfect partner.",
+    desc: "Every profile is manually verified for your safety.",
   },
   {
     icon: <FaLock />,
-    title: "Privacy Control",
-    desc: "Your personal information remains safe and secure.",
+    title: "Privacy Protection",
+    desc: "Your privacy is our top priority.",
+  },
+  {
+    icon: <FaSearch />,
+    title: "Advanced Search",
+    desc: "Find matches with advanced filters.",
   },
   {
     icon: <FaComments />,
     title: "Easy Communication",
-    desc: "Express interest and communicate with confidence.",
+    desc: "Connect easily with interested matches.",
   },
   {
-    icon: <FaHandshake />,
-    title: "Trusted Service",
-    desc: "Helping Tamil families build relationships for years.",
+    icon: <FaCrown />,
+    title: "Premium Membership",
+    desc: "Get better visibility and priority.",
   },
   {
-    icon: <FaHeart />,
-    title: "Happy Marriages",
-    desc: "Thousands of successful marriages through our platform.",
+    icon: <FaHeadset />,
+    title: "Dedicated Support",
+    desc: "We are here to help you at every step.",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="features section">
-
+    <section className="features">
       <div className="container">
+        <div className="features-heading">
+          <span>Why Choose</span>
 
-        <div className="section-title">
+          <h2>Valluvan Matrimony?</h2>
 
-          <h2>Why Choose Valluvan Matrimony?</h2>
-
-          <p>
-            Trusted by thousands of Tamil families to find their perfect life partner.
-          </p>
-
+          <div className="heading-design">
+            <span></span>
+            <i>◆</i>
+            <span></span>
+          </div>
         </div>
 
         <div className="features-grid">
-
           {features.map((item, index) => (
-
             <div className="feature-box" key={index}>
-
-              <div className="feature-icon">
-
-                {item.icon}
-
-              </div>
+              <div className="feature-icon">{item.icon}</div>
 
               <h3>{item.title}</h3>
 
               <p>{item.desc}</p>
-
             </div>
-
           ))}
-
         </div>
-
       </div>
-
     </section>
   );
 }
