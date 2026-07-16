@@ -1,40 +1,85 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useMemo,
+  useState,
+} from "react";
+
 import "./SearchBar.css";
 
 import {
-  FaBirthdayCake,
+  FaBriefcase,
   FaChevronDown,
   FaFemale,
+  FaGraduationCap,
+  FaHeart,
+  FaIdCard,
   FaMale,
   FaMapMarkerAlt,
   FaSearch,
   FaShieldAlt,
-  FaUsers,
+  FaSlidersH,
+  FaUserFriends,
 } from "react-icons/fa";
 
+type LookingFor = "bride" | "groom";
+type SearchMode = "matches" | "profileId";
+
 type SearchData = {
-  lookingFor: "bride" | "groom";
+  lookingFor: LookingFor;
   ageFrom: string;
   ageTo: string;
-  religion: string;
-  community: string;
+  maritalStatus: string;
+  subCommunity: string;
+  education: string;
+  profession: string;
   location: string;
+  profileId: string;
 };
 
 const ages = Array.from({ length: 43 }, (_, index) => index + 18);
 
-export default function SearchBar() {
-  const [searchData, setSearchData] = useState<SearchData>({
-    lookingFor: "bride",
-    ageFrom: "21",
-    ageTo: "30",
-    religion: "",
-    community: "",
-    location: "",
-  });
+const popularLocations = [
+  "Chennai",
+  "Coimbatore",
+  "Erode",
+  "Salem",
+  "Madurai",
+  "Bengaluru",
+];
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+export default function SearchBar() {
+  const [searchMode, setSearchMode] =
+    useState<SearchMode>("matches");
+
+  const [showAdvanced, setShowAdvanced] =
+    useState(false);
+
+  const [searchData, setSearchData] =
+    useState<SearchData>({
+      lookingFor: "bride",
+      ageFrom: "21",
+      ageTo: "30",
+      maritalStatus: "",
+      subCommunity: "",
+      education: "",
+      profession: "",
+      location: "",
+      profileId: "",
+    });
+
+  const availableToAges = useMemo(
+    () =>
+      ages.filter(
+        (age) => age >= Number(searchData.ageFrom)
+      ),
+    [searchData.ageFrom]
+  );
+
+  const handleInputChange = (
+    event: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = event.target;
 
@@ -55,260 +100,466 @@ export default function SearchBar() {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleLookingForChange = (
+    lookingFor: LookingFor
+  ) => {
+    setSearchData((previous) => ({
+      ...previous,
+      lookingFor,
+    }));
+  };
+
+  const handlePopularLocation = (
+    location: string
+  ) => {
+    setSearchData((previous) => ({
+      ...previous,
+      location,
+    }));
+  };
+
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
-    console.log("Search data:", searchData);
+    if (searchMode === "profileId") {
+      console.log("Profile ID search:", {
+        profileId: searchData.profileId,
+      });
+      return;
+    }
 
-    // Navigate to your profiles page here.
+    console.log("Advanced match search:", searchData);
   };
 
   return (
-    <section className="elite-search-section">
+    <section className="advanced-search-section">
       <div className="container">
-        <form
-          className="elite-search-card"
-          onSubmit={handleSubmit}
-        >
-          <div className="elite-search-header">
-            <div className="elite-heading-left">
-              <span className="elite-heading-icon">
-                <FaSearch />
-              </span>
+        <div className="advanced-search-shell">
+          <aside className="advanced-search-intro">
+            <span className="intro-eyebrow">
+              VALLUVAN MATRIMONY
+            </span>
+
+            <h2>
+              Find a match who feels
+              <span> right for you.</span>
+            </h2>
+
+            <p>
+              Search verified Valluvan bride and groom
+              profiles using preferences that matter most.
+            </p>
+
+            <div className="intro-trust-list">
+              <div>
+                <span>
+                  <FaShieldAlt />
+                </span>
+                <div>
+                  <strong>Verified profiles</strong>
+                  <small>
+                    Better trust and genuine connections
+                  </small>
+                </div>
+              </div>
 
               <div>
-                <span className="elite-eyebrow">
-                  DISCOVER YOUR PARTNER
+                <span>
+                  <FaHeart />
                 </span>
-
-                <h2>Find Profiles Matching Your Preferences</h2>
+                <div>
+                  <strong>Private preferences</strong>
+                  <small>
+                    Your search details stay protected
+                  </small>
+                </div>
               </div>
             </div>
 
-            <div className="elite-verification">
-              <FaShieldAlt />
+            <div className="intro-decoration intro-decoration-one" />
+            <div className="intro-decoration intro-decoration-two" />
+          </aside>
 
-              <span>
-                <strong>50,000+</strong>
-                Verified profiles
-              </span>
-            </div>
-          </div>
+          <form
+            className="advanced-search-form"
+            onSubmit={handleSubmit}
+          >
+            <div className="search-form-top">
+              <div>
+                <span className="form-kicker">
+                  SMART MATCH SEARCH
+                </span>
+                <h3>Discover suitable profiles</h3>
+              </div>
 
-          <div className="elite-search-main">
-            <div className="elite-looking-for">
-              <label>Looking for</label>
-
-              <div className="elite-gender-switch">
+              <div className="search-mode-switch">
                 <button
                   type="button"
                   className={
-                    searchData.lookingFor === "bride"
+                    searchMode === "matches"
                       ? "active"
                       : ""
                   }
                   onClick={() =>
-                    setSearchData((previous) => ({
-                      ...previous,
-                      lookingFor: "bride",
-                    }))
+                    setSearchMode("matches")
                   }
                 >
-                  <FaFemale />
-                  Bride
+                  <FaUserFriends />
+                  Match search
                 </button>
 
                 <button
                   type="button"
                   className={
-                    searchData.lookingFor === "groom"
+                    searchMode === "profileId"
                       ? "active"
                       : ""
                   }
                   onClick={() =>
-                    setSearchData((previous) => ({
-                      ...previous,
-                      lookingFor: "groom",
-                    }))
+                    setSearchMode("profileId")
                   }
                 >
-                  <FaMale />
-                  Groom
+                  <FaIdCard />
+                  Profile ID
                 </button>
               </div>
             </div>
 
-            <div className="elite-field elite-age-field">
-              <label>
-                <FaBirthdayCake />
-                Preferred age
-              </label>
+            {searchMode === "matches" ? (
+              <>
+                <div className="primary-search-grid">
+                  <div className="field-block looking-field">
+                    <label>Looking for</label>
 
-              <div className="elite-age-group">
-                <div className="elite-select-box">
-                  <span>From</span>
+                    <div className="gender-selector">
+                      <button
+                        type="button"
+                        className={
+                          searchData.lookingFor ===
+                          "bride"
+                            ? "active"
+                            : ""
+                        }
+                        onClick={() =>
+                          handleLookingForChange(
+                            "bride"
+                          )
+                        }
+                      >
+                        <span>
+                          <FaFemale />
+                        </span>
+                        <div>
+                          <small>Search for a</small>
+                          <strong>Bride</strong>
+                        </div>
+                      </button>
 
-                  <select
-                    name="ageFrom"
-                    value={searchData.ageFrom}
-                    onChange={handleChange}
+                      <button
+                        type="button"
+                        className={
+                          searchData.lookingFor ===
+                          "groom"
+                            ? "active"
+                            : ""
+                        }
+                        onClick={() =>
+                          handleLookingForChange(
+                            "groom"
+                          )
+                        }
+                      >
+                        <span>
+                          <FaMale />
+                        </span>
+                        <div>
+                          <small>Search for a</small>
+                          <strong>Groom</strong>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="field-block">
+                    <label>Preferred age</label>
+
+                    <div className="age-range">
+                      <div className="select-box">
+                        <small>FROM</small>
+                        <select
+                          name="ageFrom"
+                          value={searchData.ageFrom}
+                          onChange={handleInputChange}
+                        >
+                          {ages.map((age) => (
+                            <option
+                              key={age}
+                              value={age}
+                            >
+                              {age} years
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown />
+                      </div>
+
+                      <span className="age-line" />
+
+                      <div className="select-box">
+                        <small>TO</small>
+                        <select
+                          name="ageTo"
+                          value={searchData.ageTo}
+                          onChange={handleInputChange}
+                        >
+                          {availableToAges.map((age) => (
+                            <option
+                              key={age}
+                              value={age}
+                            >
+                              {age} years
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="field-block">
+                    <label>City or district</label>
+
+                    <div className="input-box">
+                      <FaMapMarkerAlt />
+                      <input
+                        type="text"
+                        name="location"
+                        value={searchData.location}
+                        placeholder="Enter city or district"
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={
+                    showAdvanced
+                      ? "advanced-filter-panel open"
+                      : "advanced-filter-panel"
+                  }
+                >
+                  <div className="advanced-filter-grid">
+                    <div className="field-block">
+                      <label>Marital status</label>
+                      <div className="select-box icon-select">
+                        <FaHeart />
+                        <select
+                          name="maritalStatus"
+                          value={
+                            searchData.maritalStatus
+                          }
+                          onChange={handleInputChange}
+                        >
+                          <option value="">
+                            Any marital status
+                          </option>
+                          <option value="never-married">
+                            Never married
+                          </option>
+                          <option value="divorced">
+                            Divorced
+                          </option>
+                          <option value="widowed">
+                            Widowed
+                          </option>
+                        </select>
+                        <FaChevronDown />
+                      </div>
+                    </div>
+
+                    <div className="field-block">
+                      <label>Valluvan community</label>
+                      <div className="select-box icon-select">
+                        <FaUserFriends />
+                        <select
+                          name="subCommunity"
+                          value={searchData.subCommunity}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">
+                            Any Valluvan community
+                          </option>
+                          <option value="valluvan">
+                            Valluvan
+                          </option>
+                          <option value="thiruvalluvar">
+                            Thiruvalluvar
+                          </option>
+                          <option value="valluva-pandaram">
+                            Valluva Pandaram
+                          </option>
+                          <option value="other">
+                            Other Valluvan community
+                          </option>
+                        </select>
+                        <FaChevronDown />
+                      </div>
+                    </div>
+
+                    <div className="field-block">
+                      <label>Education</label>
+                      <div className="select-box icon-select">
+                        <FaGraduationCap />
+                        <select
+                          name="education"
+                          value={searchData.education}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">
+                            Any education
+                          </option>
+                          <option value="school">
+                            School
+                          </option>
+                          <option value="diploma">
+                            Diploma
+                          </option>
+                          <option value="graduate">
+                            Graduate
+                          </option>
+                          <option value="post-graduate">
+                            Postgraduate
+                          </option>
+                          <option value="professional">
+                            Professional degree
+                          </option>
+                        </select>
+                        <FaChevronDown />
+                      </div>
+                    </div>
+
+                    <div className="field-block">
+                      <label>Profession</label>
+                      <div className="select-box icon-select">
+                        <FaBriefcase />
+                        <select
+                          name="profession"
+                          value={searchData.profession}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">
+                            Any profession
+                          </option>
+                          <option value="it">
+                            IT / Software
+                          </option>
+                          <option value="government">
+                            Government
+                          </option>
+                          <option value="business">
+                            Business
+                          </option>
+                          <option value="medical">
+                            Medical
+                          </option>
+                          <option value="education">
+                            Education
+                          </option>
+                          <option value="other">
+                            Other
+                          </option>
+                        </select>
+                        <FaChevronDown />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="search-actions-row">
+                  <button
+                    type="button"
+                    className="advanced-toggle"
+                    onClick={() =>
+                      setShowAdvanced((previous) => !previous)
+                    }
                   >
-                    {ages.map((age) => (
-                      <option key={age} value={age}>
-                        {age}
-                      </option>
+                    <FaSlidersH />
+                    {showAdvanced
+                      ? "Hide advanced filters"
+                      : "More search filters"}
+                    <span
+                      className={
+                        showAdvanced ? "rotate" : ""
+                      }
+                    >
+                      <FaChevronDown />
+                    </span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="primary-search-button"
+                  >
+                    <span>
+                      <FaSearch />
+                    </span>
+                    <div>
+                      <strong>Find my matches</strong>
+                      <small>
+                        Browse verified Valluvan profiles
+                      </small>
+                    </div>
+                  </button>
+                </div>
+
+                <div className="popular-location-row">
+                  <span>Popular:</span>
+
+                  <div>
+                    {popularLocations.map((location) => (
+                  <button type="button" key={location}  className={ searchData.location === location ? "active" : "" } onClick={() =>handlePopularLocation(location) } >
+                        {location}
+                      </button>
                     ))}
-                  </select>
-
-                  <FaChevronDown />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="profile-id-search">
+                <div className="profile-id-icon">
+                  <FaIdCard />
                 </div>
 
-                <span className="elite-age-line"></span>
+                <div className="profile-id-content">
+                  <span>DIRECT PROFILE SEARCH</span>
+                  <h4>Already know the Profile ID?</h4>
+                  <p>
+                    Enter the Valluvan Matrimony profile ID
+                    to open the matching profile directly.
+                  </p>
 
-                <div className="elite-select-box">
-                  <span>To</span>
+                  <div className="profile-id-control">
+                    <input type="text" name="profileId" value={searchData.profileId} placeholder="Example: VM10245" onChange={handleInputChange}/>
 
-                  <select
-                    name="ageTo"
-                    value={searchData.ageTo}
-                    onChange={handleChange}
-                  >
-                    {ages
-                      .filter(
-                        (age) => age >= Number(searchData.ageFrom)
-                      )
-                      .map((age) => (
-                        <option key={age} value={age}>
-                          {age}
-                        </option>
-                      ))}
-                  </select>
-
-                  <FaChevronDown />
+                    <button type="submit">
+                      <FaSearch />
+                      Search profile
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            <div className="elite-field">
-              <label>
-                <FaShieldAlt />
-                Religion
-              </label>
-
-              <div className="elite-input-control">
-                <select
-                  name="religion"
-                  value={searchData.religion}
-                  onChange={handleChange}
-                >
-                  <option value="">Any Religion</option>
-                  <option value="hindu">Hindu</option>
-                  <option value="christian">Christian</option>
-                  <option value="muslim">Muslim</option>
-                  <option value="jain">Jain</option>
-                  <option value="sikh">Sikh</option>
-                  <option value="buddhist">Buddhist</option>
-                  <option value="other">Other</option>
-                </select>
-
-                <FaChevronDown />
-              </div>
-            </div>
-
-            <div className="elite-field">
-              <label>
-                <FaUsers />
-                Community
-              </label>
-
-              <div className="elite-input-control">
-                <select
-                  name="community"
-                  value={searchData.community}
-                  onChange={handleChange}
-                >
-                  <option value="">Any Community</option>
-                  <option value="valluvan">Valluvan</option>
-                  <option value="vanniyar">Vanniyar</option>
-                  <option value="gounder">Gounder</option>
-                  <option value="nadar">Nadar</option>
-                  <option value="chettiar">Chettiar</option>
-                  <option value="mudaliar">Mudaliar</option>
-                  <option value="naidu">Naidu</option>
-                  <option value="adi-dravidar">
-                    Adi Dravidar
-                  </option>
-                  <option value="other">Other</option>
-                </select>
-
-                <FaChevronDown />
-              </div>
-            </div>
-
-            <div className="elite-field elite-location-field">
-              <label>
-                <FaMapMarkerAlt />
-                City or district
-              </label>
-
-              <div className="elite-input-control">
-                <input
-                  type="text"
-                  name="location"
-                  value={searchData.location}
-                  placeholder="Enter location"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="elite-search-button"
-            >
-              <span className="elite-button-icon">
-                <FaSearch />
-              </span>
-
-              <span className="elite-button-text">
-                <strong>Search Profiles</strong>
-                <small>Find your perfect match</small>
-              </span>
-            </button>
-          </div>
-
-          <div className="elite-search-footer">
-            <div className="elite-private-note">
+            <div className="privacy-note">
               <FaShieldAlt />
-              Your preferences remain private and secure.
+              Your preferences are secure and will not be
+              shown publicly.
             </div>
-
-            <div className="elite-popular">
-              <span>Popular locations</span>
-
-              {[
-                "Chennai",
-                "Coimbatore",
-                "Madurai",
-                "Bangalore",
-                "NRI",
-              ].map((location) => (
-                <button
-                  type="button"
-                  key={location}
-                  onClick={() =>
-                    setSearchData((previous) => ({
-                      ...previous,
-                      location,
-                    }))
-                  }
-                >
-                  {location}
-                </button>
-              ))}
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </section>
   );

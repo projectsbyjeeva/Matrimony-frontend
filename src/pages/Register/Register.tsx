@@ -1,21 +1,28 @@
 import { FormEvent, useEffect, useState } from "react";
+import CreatableSelect from "react-select/creatable";
 import "./Register.css";
+
 import {
   FaArrowLeft,
   FaArrowRight,
   FaCheck,
   FaEye,
   FaEyeSlash,
-  FaTimes,
-  FaUser,
   FaMapMarkerAlt,
   FaShieldAlt,
+  FaTimes,
+  FaUser,
 } from "react-icons/fa";
 
 type RegisterProps = {
   open: boolean;
   onClose: () => void;
   onLoginClick?: () => void;
+};
+
+type SelectOption = {
+  value: string;
+  label: string;
 };
 
 type RegisterFormData = {
@@ -52,16 +59,80 @@ const initialFormData: RegisterFormData = {
   acceptTerms: false,
 };
 
+const countryOptions: SelectOption[] = [
+  { value: "India", label: "India" },
+  { value: "Singapore", label: "Singapore" },
+  { value: "Malaysia", label: "Malaysia" },
+  {
+    value: "United Arab Emirates",
+    label: "United Arab Emirates",
+  },
+  { value: "United States", label: "United States" },
+  { value: "Canada", label: "Canada" },
+  { value: "Australia", label: "Australia" },
+  { value: "United Kingdom", label: "United Kingdom" },
+];
+
+const indianStates = [
+  "Andaman and Nicobar Islands",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chandigarh",
+  "Chhattisgarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jammu and Kashmir",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Ladakh",
+  "Lakshadweep",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Puducherry",
+  "Punjab",
+  "Rajasthan",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+];
+
+const indianStateOptions: SelectOption[] = indianStates.map(
+  (state) => ({
+    value: state,
+    label: state,
+  })
+);
+
 export default function Register({
   open,
   onClose,
   onLoginClick,
 }: RegisterProps) {
   const [step, setStep] = useState(1);
+
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
+
   const [formData, setFormData] =
     useState<RegisterFormData>(initialFormData);
+
   const [errors, setErrors] = useState<
     Partial<Record<keyof RegisterFormData, string>>
   >({});
@@ -107,28 +178,62 @@ export default function Register({
     }));
   };
 
-  const handleProfileForChange = ( profileFor: string) => {
+  const handleProfileForChange = (profileFor: string) => {
+    let gender = "";
 
-    let gender ="";
-
-    if(profileFor == "son" || profileFor == "brother"){
-
+    if (profileFor === "son" || profileFor === "brother") {
       gender = "male";
-    }
-
-    else if(profileFor == "daughter" || profileFor == "sister"){
+    } else if (
+      profileFor === "daughter" ||
+      profileFor === "sister"
+    ) {
       gender = "female";
     }
 
-     setFormData((previous) => ({
-    ...previous,
-    profileFor,
-    gender,
-  }));
+    setFormData((previous) => ({
+      ...previous,
+      profileFor,
+      gender,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      profileFor: "",
+      gender: "",
+    }));
+  };
+
+
+  const handleCountryChange = (country: string) => {
+    setFormData((previous) => ({
+      ...previous,
+      country,
+      state: "",
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      country: "",
+      state: "",
+    }));
+  };
+
+  const handleStateChange = (state: string) => {
+    setFormData((previous) => ({
+      ...previous,
+      state,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      state: "",
+    }));
   };
 
   const validateStep = () => {
-    const newErrors: Partial<Record<keyof RegisterFormData, string>> = {};
+    const newErrors: Partial<
+      Record<keyof RegisterFormData, string>
+    > = {};
 
     if (step === 1) {
       if (!formData.profileFor) {
@@ -150,7 +255,8 @@ export default function Register({
 
     if (step === 2) {
       if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
-        newErrors.mobile = "Enter a valid 10-digit mobile number";
+        newErrors.mobile =
+          "Enter a valid 10-digit mobile number";
       }
 
       if (
@@ -164,18 +270,31 @@ export default function Register({
           "Password must contain at least 8 characters";
       }
 
-      if (formData.password !== formData.confirmPassword) {
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword =
+          "Please confirm your password";
+      } else if (
+        formData.password !== formData.confirmPassword
+      ) {
         newErrors.confirmPassword = "Passwords do not match";
       }
     }
 
     if (step === 3) {
-      if (!formData.state) {
-        newErrors.state = "Please select your state";
+      if (!formData.country.trim()) {
+        newErrors.country =
+          "Please select or enter your country";
+      }
+
+      if (!formData.state.trim()) {
+        newErrors.state =
+          formData.country === "India"
+            ? "Please select or enter your state"
+            : "Please enter your state, province or region";
       }
 
       if (!formData.city.trim()) {
-        newErrors.city = "Please enter your city";
+        newErrors.city = "Please enter your city or district";
       }
 
       if (!formData.religion) {
@@ -207,16 +326,25 @@ export default function Register({
     setStep((current) => Math.max(current - 1, 1));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     if (!validateStep()) return;
 
-    console.log("Registration details:", formData);
+    const submissionData = {
+      ...formData,
+      fullName: formData.fullName.trim(),
+      email: formData.email.trim().toLowerCase(),
+      country: formData.country.trim(),
+      state: formData.state.trim(),
+      city: formData.city.trim(),
+    };
 
-    // Call your API here.
-    // Example:
-    // await axios.post("/api/register", formData);
+    console.log("Registration details:", submissionData);
+
+  
   };
 
   const handleOverlayClick = (
@@ -226,6 +354,28 @@ export default function Register({
       onClose();
     }
   };
+
+  const selectedCountryOption: SelectOption | null =
+    formData.country
+      ? {
+        value: formData.country,
+        label: formData.country,
+      }
+      : null;
+
+  const selectedStateOption: SelectOption | null =
+    formData.state
+      ? {
+        value: formData.state,
+        label: formData.state,
+      }
+      : null;
+
+  const genderIsAutomatic =
+    formData.profileFor === "son" ||
+    formData.profileFor === "brother" ||
+    formData.profileFor === "daughter" ||
+    formData.profileFor === "sister";
 
   return (
     <div
@@ -238,9 +388,7 @@ export default function Register({
         aria-modal="true"
         aria-labelledby="register-title"
       >
-        <button
-          type="button"
-          className="close-btn"
+        <button type="button" className="close-btn"
           onClick={onClose}
           aria-label="Close registration form"
         >
@@ -255,7 +403,9 @@ export default function Register({
                 <p>MATRIMONY</p>
               </div>
 
-              <h3>Begin your journey to a meaningful match.</h3>
+              <h3>
+                Begin your journey to a meaningful match.
+              </h3>
 
               <p className="side-description">
                 Create your account securely and complete your
@@ -271,7 +421,9 @@ export default function Register({
 
                 <div>
                   <strong>Privacy protected</strong>
-                  <small>Your contact details remain secure.</small>
+                  <small>
+                    Your contact details remain secure.
+                  </small>
                 </div>
               </div>
 
@@ -282,7 +434,9 @@ export default function Register({
 
                 <div>
                   <strong>Genuine profiles</strong>
-                  <small>Designed for trusted Tamil families.</small>
+                  <small>
+                    Designed for trusted Tamil families.
+                  </small>
                 </div>
               </div>
 
@@ -293,7 +447,9 @@ export default function Register({
 
                 <div>
                   <strong>Relevant matches</strong>
-                  <small>Find suitable profiles by preference.</small>
+                  <small>
+                    Find suitable profiles by preference.
+                  </small>
                 </div>
               </div>
             </div>
@@ -306,7 +462,9 @@ export default function Register({
             </div>
 
             <div className="register-title-section">
-              <span className="step-label">STEP {step} OF 3</span>
+              <span className="step-label">
+                STEP {step} OF 3
+              </span>
 
               <h2 id="register-title">
                 {step === 1 && "Basic Information"}
@@ -330,9 +488,8 @@ export default function Register({
               {[1, 2, 3].map((item) => (
                 <div
                   key={item}
-                  className={`stepper-item ${
-                    step >= item ? "active" : ""
-                  }`}
+                  className={`stepper-item ${step >= item ? "active" : ""
+                    }`}
                 >
                   <div className="step-circle">
                     {step > item ? <FaCheck /> : item}
@@ -348,6 +505,7 @@ export default function Register({
             </div>
 
             <form onSubmit={handleSubmit} noValidate>
+              {/* STEP 1 */}
               {step === 1 && (
                 <div className="form-step">
                   <div className="form-row">
@@ -360,17 +518,31 @@ export default function Register({
                         id="profileFor"
                         value={formData.profileFor}
                         onChange={(event) =>
-                         handleProfileForChange(event.target.value)
+                          handleProfileForChange(
+                            event.target.value
+                          )
                         }
-                        className={errors.profileFor ? "input-error" : ""}
+                        className={
+                          errors.profileFor
+                            ? "input-error"
+                            : ""
+                        }
                       >
-                        <option value="">Select profile type</option>
+                        <option value="">
+                          Select profile type
+                        </option>
                         <option value="myself">Myself</option>
                         <option value="son">Son</option>
-                        <option value="daughter">Daughter</option>
-                        <option value="brother">Brother</option>
+                        <option value="daughter">
+                          Daughter
+                        </option>
+                        <option value="brother">
+                          Brother
+                        </option>
                         <option value="sister">Sister</option>
-                        <option value="relative">Relative</option>
+                        <option value="relative">
+                          Relative
+                        </option>
                         <option value="friend">Friend</option>
                       </select>
 
@@ -389,17 +561,24 @@ export default function Register({
                       <select
                         id="gender"
                         value={formData.gender}
+                        disabled={genderIsAutomatic}
                         onChange={(event) =>
-                          updateField("gender", event.target.value)
+                          updateField(
+                            "gender",
+                            event.target.value
+                          )
                         }
-                        disabled={
-                          formData.profileFor == "son" || formData.profileFor == "brother" || formData.profileFor == "daughter" || formData.profileFor == "sister"
+                        className={
+                          errors.gender ? "input-error" : ""
                         }
-                        className={errors.gender ? "input-error" : ""}
                       >
-                        <option value="">Select gender</option>
+                        <option value="">
+                          Select gender
+                        </option>
                         <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="female">
+                          Female
+                        </option>
                       </select>
 
                       {errors.gender && (
@@ -421,9 +600,16 @@ export default function Register({
                       value={formData.fullName}
                       placeholder="Enter the name as per official records"
                       onChange={(event) =>
-                        updateField("fullName", event.target.value)
+                        updateField(
+                          "fullName",
+                          event.target.value
+                        )
                       }
-                      className={errors.fullName ? "input-error" : ""}
+                      className={
+                        errors.fullName
+                          ? "input-error"
+                          : ""
+                      }
                     />
 
                     {errors.fullName && (
@@ -449,7 +635,9 @@ export default function Register({
                         )
                       }
                       className={
-                        errors.dateOfBirth ? "input-error" : ""
+                        errors.dateOfBirth
+                          ? "input-error"
+                          : ""
                       }
                     />
 
@@ -462,6 +650,7 @@ export default function Register({
                 </div>
               )}
 
+              {/* STEP 2 */}
               {step === 2 && (
                 <div className="form-step">
                   <div className="form-row">
@@ -476,16 +665,24 @@ export default function Register({
                         <input
                           id="mobile"
                           type="tel"
+                          inputMode="numeric"
                           maxLength={10}
                           value={formData.mobile}
                           placeholder="Enter 10-digit number"
                           onChange={(event) =>
                             updateField(
                               "mobile",
-                              event.target.value.replace(/\D/g, "")
+                              event.target.value.replace(
+                                /\D/g,
+                                ""
+                              )
                             )
                           }
-                          className={errors.mobile ? "input-error" : ""}
+                          className={
+                            errors.mobile
+                              ? "input-error"
+                              : ""
+                          }
                         />
                       </div>
 
@@ -507,9 +704,14 @@ export default function Register({
                         value={formData.email}
                         placeholder="example@email.com"
                         onChange={(event) =>
-                          updateField("email", event.target.value)
+                          updateField(
+                            "email",
+                            event.target.value
+                          )
                         }
-                        className={errors.email ? "input-error" : ""}
+                        className={
+                          errors.email ? "input-error" : ""
+                        }
                       />
 
                       {errors.email && (
@@ -529,7 +731,11 @@ export default function Register({
                       <div className="password-field">
                         <input
                           id="password"
-                          type={showPassword ? "text" : "password"}
+                          type={
+                            showPassword
+                              ? "text"
+                              : "password"
+                          }
                           value={formData.password}
                           placeholder="Minimum 8 characters"
                           onChange={(event) =>
@@ -539,18 +745,26 @@ export default function Register({
                             )
                           }
                           className={
-                            errors.password ? "input-error" : ""
+                            errors.password
+                              ? "input-error"
+                              : ""
                           }
                         />
 
                         <button
                           type="button"
                           onClick={() =>
-                            setShowPassword((current) => !current)
+                            setShowPassword(
+                              (current) => !current
+                            )
                           }
                           aria-label="Show or hide password"
                         >
-                          {showPassword ? <FaEyeSlash /> : <FaEye />}
+                          {showPassword ? (
+                            <FaEyeSlash />
+                          ) : (
+                            <FaEye />
+                          )}
                         </button>
                       </div>
 
@@ -570,7 +784,9 @@ export default function Register({
                         <input
                           id="confirmPassword"
                           type={
-                            showConfirmPassword ? "text" : "password"
+                            showConfirmPassword
+                              ? "text"
+                              : "password"
                           }
                           value={formData.confirmPassword}
                           placeholder="Re-enter your password"
@@ -616,66 +832,112 @@ export default function Register({
                     <FaShieldAlt />
 
                     <p>
-                      Your contact details will not be shown publicly
-                      without your permission.
+                      Your contact details will not be shown
+                      publicly without your permission.
                     </p>
                   </div>
                 </div>
               )}
 
+              {/* STEP 3 */}
               {step === 3 && (
                 <div className="form-step">
                   <div className="form-row">
+                    {/* COUNTRY */}
                     <div className="form-group">
                       <label htmlFor="country">
                         Country <span>*</span>
                       </label>
 
-                      <select
-                        id="country"
-                        value={formData.country}
-                        onChange={(event) =>
-                          updateField("country", event.target.value)
+                      <CreatableSelect<SelectOption, false>
+                        inputId="country"
+                        options={countryOptions}
+                        value={selectedCountryOption}
+                        onChange={(selectedOption) =>
+                          handleCountryChange(
+                            selectedOption?.value ?? ""
+                          )
                         }
-                      >
-                        <option value="India">India</option>
-                        <option value="Singapore">Singapore</option>
-                        <option value="Malaysia">Malaysia</option>
-                        <option value="UAE">
-                          United Arab Emirates
-                        </option>
-                        <option value="USA">United States</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Australia">Australia</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="Other">Other</option>
-                      </select>
+                        onCreateOption={(enteredCountry) =>
+                          handleCountryChange(
+                            enteredCountry.trim()
+                          )
+                        }
+                        placeholder="Search or enter country"
+                        isClearable
+                        isSearchable
+                        formatCreateLabel={(enteredValue) =>
+                          `Add "${enteredValue}"`
+                        }
+                        noOptionsMessage={() =>
+                          "Country not found. Type it and press Enter."
+                        }
+                        className={
+                          errors.country
+                            ? "react-select-error"
+                            : ""
+                        }
+                        classNamePrefix="country-select"
+                      />
+
+                      {errors.country && (
+                        <small className="error-message">
+                          {errors.country}
+                        </small>
+                      )}
                     </div>
 
+                    {/* STATE */}
                     <div className="form-group">
                       <label htmlFor="state">
-                        State <span>*</span>
+                        State / Province <span>*</span>
                       </label>
 
-                      <select
-                        id="state"
-                        value={formData.state}
-                        onChange={(event) =>
-                          updateField("state", event.target.value)
+                      <CreatableSelect<SelectOption, false>
+                        inputId="state"
+                        options={
+                          formData.country === "India"
+                            ? indianStateOptions
+                            : []
                         }
-                        className={errors.state ? "input-error" : ""}
-                      >
-                        <option value="">Select state</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Andhra Pradesh">
-                          Andhra Pradesh
-                        </option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Puducherry">Puducherry</option>
-                        <option value="Other">Other</option>
-                      </select>
+                        value={selectedStateOption}
+                        onChange={(selectedOption) =>
+                          handleStateChange(
+                            selectedOption?.value ?? ""
+                          )
+                        }
+                        onCreateOption={(enteredState) =>
+                          handleStateChange(
+                            enteredState.trim()
+                          )
+                        }
+                        placeholder={
+                          !formData.country
+                            ? "Select country first"
+                            : formData.country === "India"
+                              ? "Search or enter Indian state"
+                              : "Enter state, province or region"
+                        }
+                        isDisabled={!formData.country}
+                        isClearable
+                        isSearchable
+                        formatCreateLabel={(enteredValue) =>
+                          `Add "${enteredValue}"`
+                        }
+                        noOptionsMessage={({ inputValue }) =>
+                          inputValue
+                            ? `Press Enter to add "${inputValue}"`
+                            : formData.country === "India"
+                              ? "Search Indian state"
+                              : "Type state or province"
+                        }
+                        className={
+                          errors.state
+                            ? "react-select-error"
+                            : ""
+                        }
+                        classNamePrefix="country-select"
+                      />
 
                       {errors.state && (
                         <small className="error-message">
@@ -690,15 +952,10 @@ export default function Register({
                       City or district <span>*</span>
                     </label>
 
-                    <input
-                      id="city"
-                      type="text"
-                      value={formData.city}
-                      placeholder="Example: Erode"
-                      onChange={(event) =>
-                        updateField("city", event.target.value)
+ <input id="city" type="text" value={formData.city} placeholder="Example: Erode" onChange={(event) => updateField("city", event.target.value)}
+                      className={
+                        errors.city ? "input-error" : ""
                       }
-                      className={errors.city ? "input-error" : ""}
                     />
 
                     {errors.city && (
@@ -714,17 +971,11 @@ export default function Register({
                         Religion <span>*</span>
                       </label>
 
-                      <select
-                        id="religion"
-                        value={formData.religion}
-                        onChange={(event) =>
-                          updateField("religion", event.target.value)
-                        }
-                        className={errors.religion ? "input-error" : ""}
-                      >
-                        <option value="">Select religion</option>
+                      <select id="religion" value={formData.religion} onChange={(event) => updateField("religion", event.target.value)}
+                        className={errors.religion ? "input-error" : ""} >
+                        <option value=""> Select religion  </option>
                         <option value="Hindu">Hindu</option>
-                        <option value="Christian">Christian</option>
+                        <option value="Christian"> Christian</option>
                         <option value="Muslim">Muslim</option>
                         <option value="Jain">Jain</option>
                         <option value="Sikh">Sikh</option>
@@ -744,27 +995,14 @@ export default function Register({
                         Community <span>*</span>
                       </label>
 
-                      <select
-                        id="community"
-                        value={formData.community}
-                        onChange={(event) =>
-                          updateField("community", event.target.value)
-                        }
-                        className={
-                          errors.community ? "input-error" : ""
-                        }
-                      >
-                        <option value="">Select community</option>
-                        <option value="Valluvan">Valluvan</option>
-                        <option value="Vanniyar">Vanniyar</option>
-                        <option value="Gounder">Gounder</option>
-                        <option value="Nadar">Nadar</option>
-                        <option value="Chettiar">Chettiar</option>
-                        <option value="Mudaliar">Mudaliar</option>
-                        <option value="Naidu">Naidu</option>
-                        <option value="Adi Dravidar">
-                          Adi Dravidar
+                      <select id="community" value={formData.community} onChange={(event) => updateField("community", event.target.value)} className={errors.community ? "input-error" : ""} >
+                        <option value="">
+                          Select community
                         </option>
+                        <option value="Valluvan">
+                          Valluvan
+                        </option>
+
                         <option value="Other">Other</option>
                       </select>
 
@@ -790,11 +1028,19 @@ export default function Register({
 
                     <span>
                       I agree to the{" "}
-                      <a href="/terms" target="_blank">
+                      <a
+                        href="/terms"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         Terms and Conditions
                       </a>{" "}
                       and{" "}
-                      <a href="/privacy-policy" target="_blank">
+                      <a
+                        href="/privacy-policy"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         Privacy Policy
                       </a>
                       .
@@ -831,7 +1077,10 @@ export default function Register({
                     <FaArrowRight />
                   </button>
                 ) : (
-                  <button type="submit" className="register-submit">
+                  <button
+                    type="submit"
+                    className="register-submit"
+                  >
                     Create Free Profile
                     <FaArrowRight />
                   </button>
@@ -841,13 +1090,7 @@ export default function Register({
               <p className="login-text">
                 Already registered?
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    onClose();
-                    onLoginClick?.();
-                  }}
-                >
+                <button type="button" onClick={() => { onClose(); onLoginClick?.(); }}>
                   Login to your account
                 </button>
               </p>

@@ -776,3 +776,134 @@
     right: 14%;
   }
 }
+
+/* React Select: Country and state searchable fields */
+
+.country-select__control {
+  min-height: 49px !important;
+
+  border: 1px solid #ddd5d7 !important;
+  border-radius: 12px !important;
+
+  background: #fff !important;
+
+  box-shadow: none !important;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  cursor: text !important;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.country-select__control:hover {
+  border-color: #c9bdc0 !important;
+}
+
+.country-select__control--is-focused {
+  border-color: var(--primary) !important;
+
+  box-shadow:
+    0 0 0 4px rgba(139, 13, 47, 0.08) !important;
+}
+
+.country-select__control--is-disabled {
+  background: #f5f2f3 !important;
+  cursor: not-allowed !important;
+}
+
+.country-select__value-container {
+  padding: 0 14px !important;
+}
+
+.country-select__input-container {
+  color: #2d2829 !important;
+}
+
+.country-select__single-value {
+  color: #2d2829 !important;
+}
+
+.country-select__placeholder {
+  color: #aaa2a5 !important;
+}
+
+.country-select__indicator-separator {
+  display: none;
+}
+
+.country-select__dropdown-indicator {
+  color: #8d8386 !important;
+}
+
+.country-select__clear-indicator {
+  color: #9a9093 !important;
+}
+
+.country-select__menu {
+  z-index: 99999 !important;
+
+  margin-top: 6px !important;
+
+  border: 1px solid #eee5e7 !important;
+  border-radius: 12px !important;
+
+  background: #fff !important;
+
+  box-shadow: 0 14px 35px rgba(55, 29, 37, 0.14) !important;
+
+  overflow: hidden;
+}
+
+.country-select__menu-list {
+  max-height: 220px !important;
+
+  padding: 5px !important;
+}
+
+.country-select__option {
+  padding: 10px 12px !important;
+
+  border-radius: 8px !important;
+
+  color: #4c4346 !important;
+
+  font-size: 13px !important;
+
+  cursor: pointer !important;
+}
+
+.country-select__option--is-focused {
+  background: #fff1f5 !important;
+  color: var(--primary) !important;
+}
+
+.country-select__option--is-selected {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+
+.country-select__no-options-message {
+  color: #82777a !important;
+
+  font-size: 12px !important;
+}
+
+.react-select-error .country-select__control {
+  border-color: #d23a52 !important;
+
+  background: #fffafa !important;
+}
+
+.form-group select:disabled,
+.form-group input:disabled {
+  background: #f5f2f3;
+  color: #999;
+
+  cursor: not-allowed;
+
+  opacity: 1;
+}
