@@ -255,6 +255,12 @@
   min-width: 0;
 }
 
+.primary-search-grid > .field-block:last-child {
+  width: 280px;
+  max-width: 100%;
+  justify-self: end;
+}
+
 .field-block > label {
   display: block;
   margin-bottom: 9px;
@@ -798,6 +804,7 @@
   .advanced-search-form {
     padding: 30px;
   }
+
 }
 
 @media (max-width: 650px) {
@@ -846,6 +853,10 @@
 
   .looking-field {
     grid-column: auto;
+  }
+
+  .primary-search-grid > .field-block:last-child {
+    width: 100%;
   }
 
   .advanced-filter-panel.open {

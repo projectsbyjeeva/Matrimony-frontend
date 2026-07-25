@@ -7,6 +7,7 @@ import "./styles/globals.css";
 import "./styles/responsive.css";
 
 import App from "./App";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,6 +15,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </React.StrictMode>
 );

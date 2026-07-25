@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./Navbar.css";
 
-import { FaUserCircle } from "react-icons/fa";
+import { FaGlobe, FaUserCircle } from "react-icons/fa";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import logoImage from "../../assets/images/vallu-2.png";
+import { Language, useLanguage } from "../../context/LanguageContext";
 
 type NavbarProps = {
   onLoginClick: () => void;
@@ -17,8 +18,42 @@ export default function Navbar({
   onRegisterClick,
 }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const { language, setLanguage } = useLanguage();
 
-  const closeMenu = () => setMenuOpen(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setLanguageOpen(false);
+  };
+
+  const chooseLanguage = (selected: Language) => {
+    setLanguage(selected);
+    setLanguageOpen(false);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    closeMenu();
+
+    // If already on landing page, directly scroll
+    if (location.pathname === "/") {
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      return;
+    }
+
+    // If currently on another page, go home first
+    navigate(`/#${sectionId}`);
+  };
 
   return (
     <header className="navbar">
@@ -42,6 +77,7 @@ export default function Navbar({
 
         {/* Desktop Menu */}
         <nav className="nav-menu">
+
           <NavLink to="/" end className="nav-link">
             Home
           </NavLink>
@@ -50,27 +86,73 @@ export default function Navbar({
             Search
           </NavLink>
 
-          <NavLink to="/membership" className="nav-link">
-            Membership
-          </NavLink>
-
-          <NavLink to="/stories" className="nav-link">
+          {/* Success Stories - Same Page Scroll */}
+          <button
+            type="button"
+            className="nav-link nav-scroll-btn"
+            onClick={() => scrollToSection("success-stories")}
+          >
             Success Stories
-          </NavLink>
+          </button>
 
-          <NavLink to="/contact" className="nav-link">
+          {/* Contact - Scroll to Footer */}
+          <button
+            type="button"
+            className="nav-link nav-scroll-btn"
+            onClick={() => scrollToSection("contact")}
+          >
             Contact
-          </NavLink>
+          </button>
+
         </nav>
 
         {/* Right */}
         <div className="nav-right">
-          <button className="login-btn" onClick={onLoginClick}>
+
+          <div className="language-picker" data-no-translate="true">
+            <button
+              type="button"
+              className="language-button"
+              aria-label="Choose language"
+              aria-expanded={languageOpen}
+              onClick={() => setLanguageOpen((open) => !open)}
+            >
+              <FaGlobe />
+              <span>{language === "ta" ? "தமிழ்" : "English"}</span>
+            </button>
+
+            {languageOpen && (
+              <div className="language-menu">
+                <button
+                  type="button"
+                  className={language === "en" ? "active" : ""}
+                  onClick={() => chooseLanguage("en")}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  className={language === "ta" ? "active" : ""}
+                  onClick={() => chooseLanguage("ta")}
+                >
+                  தமிழ்
+                </button>
+              </div>
+            )}
+          </div>
+
+          <button
+            className="login-btn"
+            onClick={onLoginClick}
+          >
             <FaUserCircle />
             Login
           </button>
 
-          <button className="register-btn" onClick={onRegisterClick}>
+          <button
+            className="register-btn"
+            onClick={onRegisterClick}
+          >
             Register Free
           </button>
 
@@ -82,11 +164,13 @@ export default function Navbar({
           >
             {menuOpen ? <HiOutlineX /> : <HiOutlineMenuAlt3 />}
           </button>
+
         </div>
       </div>
 
       {/* Mobile Navigation */}
       <div className={`mobile-nav ${menuOpen ? "show" : ""}`}>
+
         <NavLink to="/" end onClick={closeMenu}>
           Home
         </NavLink>
@@ -95,17 +179,21 @@ export default function Navbar({
           Search
         </NavLink>
 
-        <NavLink to="/membership" onClick={closeMenu}>
-          Membership
-        </NavLink>
-
-        <NavLink to="/stories" onClick={closeMenu}>
+        <button
+          type="button"
+          className="mobile-scroll-link"
+          onClick={() => scrollToSection("success-stories")}
+        >
           Success Stories
-        </NavLink>
+        </button>
 
-        <NavLink to="/contact" onClick={closeMenu}>
+        <button
+          type="button"
+          className="mobile-scroll-link"
+          onClick={() => scrollToSection("contact")}
+        >
           Contact
-        </NavLink>
+        </button>
 
         <button
           className="mobile-login"
@@ -126,6 +214,7 @@ export default function Navbar({
         >
           Register Free
         </button>
+
       </div>
     </header>
   );

@@ -1,0 +1,62 @@
+.profile-details-page { min-height: 100vh; padding: 125px 20px 70px; background: var(--background); }
+.profile-details-container { width: min(1080px, 100%); margin: 0 auto; }
+.profile-page-actions { display: flex; margin-bottom: 18px; align-items: center; justify-content: space-between; gap: 16px; }
+.profile-back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 700; }
+.profile-print-brand { display: none; }
+.profile-details-card { overflow: hidden; border-radius: 22px; background: #fff; box-shadow: 0 18px 50px rgba(35,45,65,.14); }
+.profile-details-header { display: grid; grid-template-columns: 1fr 280px; min-height: 280px; overflow: hidden; background: linear-gradient(135deg,#5c1529,var(--primary)); color: #fff; }
+.profile-details-summary { display: flex; padding: 45px 50px; align-items: flex-start; justify-content: center; flex-direction: column; }
+.profile-details-summary h1 { margin: 0 0 8px; font-size: clamp(2.2rem,4vw,3.4rem); }
+.profile-details-summary p { margin-bottom: 18px; color: rgba(255,255,255,.82); }
+.profile-registration { margin-bottom: 13px; color: #f0be5c; font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+.verified-profile { padding: 7px 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: rgba(255,255,255,.12); color: #ffe39b; font-size: 12px; font-weight: 700; }
+.profile-details-header img { width: 100%; height: 280px; object-fit: cover; object-position: center 20%; }
+.profile-details-body { padding: 32px 40px 42px; }
+.profile-detail-section + .profile-detail-section { margin-top: 28px; }
+.profile-detail-section h2 { margin: 0 0 10px; padding-bottom: 9px; border-bottom: 2px solid #d9a33b; color: #65172c; font-size: 18px; }
+.profile-detail-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0; border-top: 1px solid #eadfce; border-left: 1px solid #eadfce; }
+.profile-detail-grid > div { display: grid; grid-template-columns: minmax(120px,.8fr) 1.2fr; min-width: 0; border-right: 1px solid #eadfce; border-bottom: 1px solid #eadfce; }
+.profile-detail-grid .detail-wide { grid-column: 1 / -1; }
+.profile-detail-grid dt,.profile-detail-grid dd { min-width: 0; margin: 0; padding: 10px 11px; overflow-wrap: anywhere; font-size: 13px; }
+.profile-detail-grid dt { background: #f8eedc; color: #68152b; font-weight: 700; }
+.profile-detail-grid dd { color: #3e3b3c; }
+.contact-note { margin: 12px 0 0; color: #8a7b80; font-size: 12px; font-style: italic; }
+.profile-not-found { display: grid; place-content: center; text-align: center; }
+.profile-not-found a { margin-top: 15px; color: var(--primary); font-weight: 700; }
+@media (max-width: 760px) { .profile-details-header { grid-template-columns: 1fr; } .profile-details-header img { grid-row: 1; width: 100%; height: 300px; } .profile-details-summary { padding: 28px 24px; } .profile-details-body { padding: 25px 16px 32px; } .profile-detail-grid { grid-template-columns: 1fr; } .profile-detail-grid .detail-wide { grid-column: auto; } }
+@media (max-width: 480px) { .profile-details-page { padding: 105px 10px 45px; } .profile-details-card { border-radius: 15px; } .profile-details-header img { height: 240px; } .profile-detail-grid > div { grid-template-columns: 112px 1fr; } .profile-detail-grid dt,.profile-detail-grid dd { padding: 8px; font-size: 12px; } }
+
+@media print {
+  @page { size: A4 portrait; margin: 8mm; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .navbar,
+  .profile-page-actions,
+  .footer { display: none !important; }
+  html,
+  body { width: 100%; margin: 0; padding: 0; background: #fff; }
+  .profile-details-page { min-height: 0; padding: 0; background: #fff; }
+  .profile-details-container { width: 100%; max-width: none; }
+  .profile-details-card { overflow: visible; border-radius: 0; box-shadow: none; }
+  .profile-print-brand { display: flex; height: 22mm; padding: 2mm 6mm; align-items: center; justify-content: center; gap: 3mm; border-bottom: 1.5px solid #9d0b35; }
+  .profile-print-brand img { width: 16mm; height: 16mm; object-fit: contain; }
+  .profile-print-brand > div { display: flex; flex-direction: column; }
+  .profile-print-brand strong { color: #9d0b35; font-family: Georgia, serif; font-size: 18pt; letter-spacing: .04em; line-height: 1; }
+  .profile-print-brand span { margin-top: 1.5mm; color: #d99b27; font-size: 7pt; font-weight: 800; letter-spacing: .35em; }
+  .profile-details-header { display: grid !important; grid-template-columns: 1fr 48mm !important; min-height: 48mm !important; height: 48mm !important; break-inside: avoid; border-radius: 0; background: linear-gradient(135deg,#5c1529,#9d0b35) !important; }
+  .profile-details-summary { display: flex; padding: 7mm 9mm !important; justify-content: center; }
+  .profile-details-summary h1 { margin-bottom: 1mm; color: #fff !important; font-size: 25pt; }
+  .profile-details-summary p { margin-bottom: 2mm; color: #fff !important; font-size: 9pt; }
+  .profile-registration { margin-bottom: 2mm; font-size: 7pt; }
+  .verified-profile { padding: 1mm 2mm; font-size: 7pt; }
+  .profile-details-header img { grid-row: auto !important; width: 48mm !important; height: 48mm !important; object-fit: cover; }
+  .profile-details-body { padding: 4mm 6mm 3mm !important; }
+  .profile-detail-section + .profile-detail-section { margin-top: 3mm; }
+  .profile-detail-section { break-inside: avoid; }
+  .profile-detail-section h2 { margin-bottom: 1.5mm; padding-bottom: 1mm; font-size: 11pt; }
+  .profile-detail-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .profile-detail-grid > div { grid-template-columns: 30mm 1fr !important; }
+  .profile-detail-grid .detail-wide { grid-column: 1 / -1 !important; }
+  .profile-detail-grid dt,
+  .profile-detail-grid dd { padding: 1.2mm 2mm !important; font-size: 7.5pt !important; line-height: 1.2; }
+  .contact-note { margin-top: 1.5mm; font-size: 7pt; }
+}

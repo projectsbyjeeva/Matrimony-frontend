@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import Navbar from "../../components/Navbar/Navbar";
 import Hero from "../../components/Hero/Hero";
@@ -16,9 +17,31 @@ import Register from "../Register/Register";
 import "./LandingPage.css";
 
 export default function LandingPage() {
-
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+
+  const location = useLocation();
+
+  // Handles scrolling when coming from another page
+  // Example: /search -> click Success Stories -> home -> scroll
+  useEffect(() => {
+    if (!location.hash) {
+      return;
+    }
+
+    const sectionId = location.hash.replace("#", "");
+
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+  }, [location]);
 
   return (
     <>
@@ -28,13 +51,32 @@ export default function LandingPage() {
       />
 
       <Hero />
+
       <SearchBar />
+
       <Statistics />
+
       <Features />
-      <FeaturedProfiles />
-      <SuccessStories />
+
+      <FeaturedProfiles onRegisterClick={() => setShowRegister(true)} />
+
+      {/* Success Stories Section */}
+      <section
+        id="success-stories"
+        className="scroll-section"
+      >
+        <SuccessStories />
+      </section>
+
       <CTA />
-      <Footer />
+
+      {/* Contact/Footer Section */}
+      <footer
+        id="contact"
+        className="scroll-section"
+      >
+        <Footer />
+      </footer>
 
       <Login
         open={showLogin}

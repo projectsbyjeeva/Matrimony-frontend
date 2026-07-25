@@ -10,7 +10,7 @@
     width: 100%;
     z-index: 9999;
 
-    background: #fffaf6;
+    background: var(--background);
 
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -31,6 +31,61 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.language-picker {
+    position: relative;
+}
+
+.language-button {
+    min-width: 96px;
+    height: 44px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid rgba(139, 13, 47, 0.2);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.language-button svg {
+    font-size: 17px;
+}
+
+.language-menu {
+    position: absolute;
+    top: calc(100% + 9px);
+    right: 0;
+    z-index: 10001;
+    width: 135px;
+    padding: 6px;
+    border: 1px solid rgba(139, 13, 47, 0.14);
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(50, 20, 30, 0.16);
+}
+
+.language-menu button {
+    width: 100%;
+    padding: 10px 11px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #43383c;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.language-menu button:hover,
+.language-menu button.active {
+    background: #fff0f4;
+    color: var(--primary);
 }
 
 /* =========================================================
@@ -121,30 +176,68 @@
     margin-right: 70px;
 }
 
+/*
+   Common style for:
+   Home
+   Search
+   Success Stories
+   Contact
+*/
 .nav-link {
     position: relative;
 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 8px 0;
+    margin: 0;
 
     color: #333;
+    background: transparent;
+
+    border: none;
+    outline: none;
+    box-shadow: none;
 
     text-decoration: none;
+
+    font-family: inherit;
     font-size: 15px;
     font-weight: 600;
+    line-height: normal;
 
     white-space: nowrap;
 
-    transition: color 0.25s ease;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        color 0.25s ease,
+        opacity 0.25s ease;
 }
 
+/* Remove any default button styling */
+button.nav-link {
+    border: none;
+    background: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Hover */
 .nav-link:hover {
     color: var(--primary);
 }
 
+/* Active NavLink */
 .nav-link.active {
     color: var(--primary);
 }
 
+/* Active underline */
 .nav-link.active::after {
     content: "";
 
@@ -156,7 +249,30 @@
     height: 2px;
 
     background: var(--primary);
+
     border-radius: 10px;
+}
+
+/* Optional hover underline for all navbar items */
+.nav-link:not(.active)::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -11px;
+
+    width: 0;
+    height: 2px;
+
+    background: var(--primary);
+
+    border-radius: 10px;
+
+    transition: width 0.25s ease;
+}
+
+.nav-link:not(.active):hover::after {
+    width: 100%;
 }
 
 /* =========================================================
@@ -235,6 +351,7 @@
     border: none;
 
     color: var(--primary);
+
     font-size: 32px;
     line-height: 1;
 
@@ -251,6 +368,39 @@
 
 .mobile-nav {
     display: none;
+}
+
+/* Mobile Success Stories / Contact buttons */
+.mobile-scroll-link {
+    width: 100%;
+
+    display: block;
+
+    padding: 14px 0;
+    margin: 0;
+
+    background: transparent;
+
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+
+    color: #333;
+
+    text-align: left;
+    text-decoration: none;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.mobile-scroll-link:hover {
+    color: var(--primary);
 }
 
 /* =========================================================
@@ -303,20 +453,28 @@
 
         padding: 18px 24px 24px;
 
-        background: #fffaf6;
+        background: var(--background);
 
         border-top: 1px solid rgba(153, 0, 51, 0.08);
+
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 
         animation: slideDown 0.25s ease;
     }
 
+    /*
+       Mobile normal links
+       Home / Search
+    */
     .mobile-nav.show a {
+        display: block;
+
         padding: 14px 0;
 
         color: #333;
 
         text-decoration: none;
+
         font-size: 16px;
         font-weight: 500;
 
@@ -325,7 +483,42 @@
 
     .mobile-nav.show a.active {
         color: var(--primary);
+
         font-weight: 700;
+    }
+
+    /*
+       Mobile scroll buttons
+       Success Stories / Contact
+    */
+    .mobile-nav.show .mobile-scroll-link {
+        width: 100%;
+
+        display: block;
+
+        padding: 14px 0;
+
+        background: transparent;
+
+        border: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+
+        color: #333;
+
+        text-align: left;
+
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+
+        cursor: pointer;
+
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    .mobile-nav.show .mobile-scroll-link:hover {
+        color: var(--primary);
     }
 
     .mobile-login,
@@ -345,6 +538,7 @@
 
     .mobile-login {
         background: transparent;
+
         color: var(--primary);
 
         border: 2px solid var(--primary);
@@ -352,6 +546,7 @@
 
     .mobile-register {
         background: var(--primary);
+
         color: #fff;
 
         border: 2px solid var(--primary);
@@ -365,7 +560,18 @@
 @media (max-width: 768px) {
     .navbar .navbar-container {
         height: 75px;
+
         padding: 0 18px;
+    }
+
+    .language-button {
+        min-width: 44px;
+        width: 44px;
+        padding: 0;
+    }
+
+    .language-button span {
+        display: none;
     }
 
     .logo {
@@ -385,6 +591,7 @@
         margin-top: 5px;
 
         font-size: 9px;
+
         letter-spacing: 3.4px;
     }
 
@@ -394,6 +601,7 @@
 
     .mobile-nav.show {
         top: 75px;
+
         padding: 16px 18px 22px;
     }
 }
@@ -422,6 +630,7 @@
 
     .logo-text span {
         font-size: 8px;
+
         letter-spacing: 2.8px;
     }
 
@@ -446,6 +655,7 @@
 
     .logo-text span {
         font-size: 7px;
+
         letter-spacing: 2.3px;
     }
 }
@@ -457,11 +667,13 @@
 @keyframes slideDown {
     from {
         opacity: 0;
+
         transform: translateY(-8px);
     }
 
     to {
         opacity: 1;
+
         transform: translateY(0);
     }
 }

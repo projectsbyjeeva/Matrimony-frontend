@@ -1,21 +1,19 @@
 import "./Hero.css";
+
 import {
   FaShieldAlt,
   FaHeart,
   FaUserCheck,
 } from "react-icons/fa";
 
-
-import hero from "../../assets/images/cp-1.png";
+import hero from "../../assets/images/cpi-2.png";
 
 export default function Hero() {
   return (
     <section className="hero">
+      <div className="hero-container">
 
-      <div className="container hero-container">
-
-        {/* LEFT */}
-
+        {/* LEFT CONTENT */}
         <div className="hero-content">
 
           <span className="hero-badge">
@@ -31,12 +29,10 @@ export default function Hero() {
 
           <p>
             Discover verified bride and groom profiles from trusted families.
-            Safe, secure and designed to help you find your perfect life
-            partner.
+            Safe, secure and designed to help you find your perfect life partner.
           </p>
 
           <div className="hero-buttons">
-
             <button className="primary-btn">
               Register Free
             </button>
@@ -44,7 +40,6 @@ export default function Hero() {
             <button className="secondary-btn">
               Browse Profiles
             </button>
-
           </div>
 
           <div className="hero-features">
@@ -65,40 +60,26 @@ export default function Hero() {
             </div>
 
           </div>
-
         </div>
 
-        {/* RIGHT */}
-
+        {/* RIGHT IMAGE */}
         <div className="hero-image-wrapper">
 
           <div className="circle circle-one"></div>
+
           <div className="circle circle-two"></div>
 
-          <div className="hero-image">
-
-           <img
-  src={hero}
-  alt="Bride and Groom"
-  className="hero-img"
-/>
-
+          <div className="hero-image-blend">
+            <img
+              src={hero}
+              alt="Bride and Groom"
+              className="hero-img"
+            />
           </div>
-
-          {/* <div className="floating-card top-card">
-            <h2>25K+</h2>
-            <p>Happy Couples</p>
-          </div> */}
-
-          {/* <div className="floating-card bottom-card">
-            <h2>100%</h2>
-            <p>Verified Profiles</p>
-          </div> */}
 
         </div>
 
       </div>
-
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import "./FeaturedProfiles.css";
+import { useEffect, useState } from "react";
 
  import bride1 from "../../assets/images/bride-1.png";
 import groom1 from "../../assets/images/groom-1.png";
@@ -11,7 +12,9 @@ import {
   FaMapMarkerAlt,
   FaGraduationCap,
   FaBriefcase,
-  FaHeart
+  FaHeart,
+  FaLock,
+  FaTimes,
 } from "react-icons/fa";
 
 const profiles = [
@@ -56,18 +59,90 @@ const profiles = [
     job: "Teacher"
   },
   {
-    // image: groom3,
+    image: groom1,
     name: "Vignesh",
     age: "30 Years",
     city: "Trichy",
     education: "MCA",
     job: "Project Manager"
+  },
+  {
+    image: bride1,
+    name: "Nithya",
+    age: "26 Years",
+    city: "Tirunelveli",
+    education: "M.Com",
+    job: "Banking Professional"
+  },
+  {
+    image: groom2,
+    name: "Surya",
+    age: "27 Years",
+    city: "Chennai",
+    education: "B.E",
+    job: "Product Designer"
+  },
+  {
+    image: bride3,
+    name: "Keerthana",
+    age: "24 Years",
+    city: "Coimbatore",
+    education: "B.Arch",
+    job: "Architect"
+  },
+  {
+    image: groom1,
+    name: "Pradeep",
+    age: "31 Years",
+    city: "Madurai",
+    education: "M.Tech",
+    job: "Senior Engineer"
   }
 ];
 
-export default function FeaturedProfiles() {
+type FeaturedProfilesProps = {
+  onRegisterClick: () => void;
+};
+
+export default function FeaturedProfiles({ onRegisterClick }: FeaturedProfilesProps) {
+  const [showRegisterNotice, setShowRegisterNotice] = useState(false);
+  const [previewProfile, setPreviewProfile] = useState<(typeof profiles)[number] | null>(null);
+  const [secondsLeft, setSecondsLeft] = useState(45);
+
+  useEffect(() => {
+    if (!previewProfile) return;
+
+    if (secondsLeft <= 0) {
+      setPreviewProfile(null);
+      setShowRegisterNotice(true);
+      return;
+    }
+
+    const timer = window.setTimeout(
+      () => setSecondsLeft((seconds) => seconds - 1),
+      1000
+    );
+
+    return () => window.clearTimeout(timer);
+  }, [previewProfile, secondsLeft]);
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowRegisterNotice(false);
+        setPreviewProfile(null);
+      }
+    };
+
+    if (showRegisterNotice || previewProfile) {
+      document.addEventListener("keydown", closeOnEscape);
+    }
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [showRegisterNotice, previewProfile]);
+
   return (
-    <section className="profiles section">
+    <>
+      <section className="profiles section">
 
       <div className="container">
 
@@ -114,7 +189,14 @@ export default function FeaturedProfiles() {
                   {profile.job}
                 </p>
 
-                <button className="view-btn">
+                <button
+                  type="button"
+                  className="view-btn"
+                  onClick={() => {
+                    setSecondsLeft(45);
+                    setPreviewProfile(profile);
+                  }}
+                >
                   View Profile
                 </button>
 
@@ -128,6 +210,91 @@ export default function FeaturedProfiles() {
 
       </div>
 
-    </section>
+      </section>
+
+      {previewProfile && (
+        <div className="featured-preview-backdrop">
+          <article
+            className="featured-profile-preview"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="featured-preview-title"
+          >
+            <button
+              type="button"
+              className="featured-preview-close"
+              aria-label="Close profile preview"
+              onClick={() => setPreviewProfile(null)}
+            >
+              <FaTimes aria-hidden="true" />
+            </button>
+
+            <div className="featured-preview-image">
+              <img src={previewProfile.image} alt={previewProfile.name} />
+              <span className="preview-timer">Preview ends in {secondsLeft}s</span>
+            </div>
+
+            <div className="featured-preview-content">
+              <span className="preview-verified">Verified Profile</span>
+              <h2 id="featured-preview-title">{previewProfile.name}</h2>
+              <p className="preview-age">{previewProfile.age}</p>
+
+              <dl className="featured-preview-details">
+                <div><dt>Location</dt><dd>{previewProfile.city}</dd></div>
+                <div><dt>Education</dt><dd>{previewProfile.education}</dd></div>
+                <div><dt>Occupation</dt><dd>{previewProfile.job}</dd></div>
+                <div><dt>Profile Type</dt><dd>Verified Member</dd></div>
+              </dl>
+
+              <p className="preview-message">
+                Register free to continue viewing full biodata and protected contact details.
+              </p>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {showRegisterNotice && (
+        <div
+          className="register-notice-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowRegisterNotice(false);
+          }}
+        >
+          <div
+            className="register-notice"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="register-notice-title"
+          >
+            <button
+              type="button"
+              className="register-notice-close"
+              aria-label="Close"
+              onClick={() => setShowRegisterNotice(false)}
+            >
+              <FaTimes aria-hidden="true" />
+            </button>
+
+            <span className="register-notice-icon">
+              <FaLock aria-hidden="true" />
+            </span>
+            <h2 id="register-notice-title">Register to View Profile</h2>
+            <p>Please register first to view complete profile details and contact information.</p>
+
+            <button
+              type="button"
+              className="register-notice-action"
+              onClick={() => {
+                setShowRegisterNotice(false);
+                onRegisterClick();
+              }}
+            >
+              Register Free
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
