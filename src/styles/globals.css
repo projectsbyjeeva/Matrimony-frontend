@@ -9,15 +9,32 @@
 
 html{
     scroll-behavior:smooth;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar{
+    width:0;
+    height:0;
+    display:none;
 }
 
 body{
 
     font-family:'roboto',sans-serif;
+    font-size:17px;
     background:var(--background);
     color:var(--text);
     overflow-x:hidden;
 
+}
+
+button,
+input,
+select,
+textarea{
+    font-size:inherit;
 }
 
 img{
@@ -48,6 +65,104 @@ select{
     font-family:'Poppins',sans-serif;
     outline:none;
 
+}
+
+/* Keep scrolling functional while hiding visual scrollbar tracks. */
+*{
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+}
+
+*::-webkit-scrollbar{
+    width:0;
+    height:0;
+    display:none;
+}
+
+/* Shared dropdown language used by native selects across the project. */
+select{
+    border:1px solid #dce1e8;
+    border-radius:9px;
+    background-color:#fbfcfd;
+    color:#273142;
+    cursor:pointer;
+    transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease;
+}
+
+select:hover{
+    border-color:#b89aa4;
+}
+
+select:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(153,0,51,.1);
+}
+
+select option{
+    background:#fff;
+    color:#3f3a3c;
+}
+
+/* Shared react-select appearance (Search and Register pages). */
+:is(.filter-select__control,.country-select__control){
+    border-color:#dce1e8 !important;
+    border-radius:9px !important;
+    background:#fbfcfd !important;
+    box-shadow:none !important;
+    transition:border-color .2s ease,box-shadow .2s ease !important;
+}
+
+:is(.filter-select__control,.country-select__control):hover,
+:is(.filter-select__control--is-focused,.country-select__control--is-focused){
+    border-color:var(--primary) !important;
+}
+
+:is(.filter-select__control--is-focused,.country-select__control--is-focused){
+    box-shadow:0 0 0 3px rgba(153,0,51,.1) !important;
+}
+
+:is(.filter-select__indicator-separator,.country-select__indicator-separator){
+    display:none !important;
+}
+
+:is(.filter-select__clear-indicator,.country-select__clear-indicator),
+:is(.filter-select__dropdown-indicator,.country-select__dropdown-indicator){
+    color:#8b9098 !important;
+}
+
+:is(.filter-select__menu,.country-select__menu){
+    overflow:hidden !important;
+    border:1px solid #eadde2 !important;
+    border-radius:10px !important;
+    background:#fff !important;
+    box-shadow:0 14px 30px rgba(38,26,31,.16) !important;
+}
+
+:is(.filter-select__menu-list,.country-select__menu-list){
+    max-height:220px !important;
+    padding:5px !important;
+    scrollbar-width:none !important;
+}
+
+:is(.filter-select__menu-list,.country-select__menu-list)::-webkit-scrollbar{
+    display:none !important;
+}
+
+:is(.filter-select__option,.country-select__option){
+    padding:10px 12px !important;
+    border-radius:7px !important;
+    color:#3f3a3c !important;
+    cursor:pointer !important;
+}
+
+:is(.filter-select__option--is-focused,.country-select__option--is-focused){
+    background:#fff0f4 !important;
+    color:var(--primary) !important;
+}
+
+:is(.filter-select__option--is-selected,.country-select__option--is-selected){
+    background:var(--primary) !important;
+    color:#fff !important;
 }
 
 ul{

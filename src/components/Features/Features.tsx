@@ -53,9 +53,14 @@ export default function Features() {
 
           <div className="heading-design">
             <span></span>
-            <i>◆</i>
+            <i>♥</i>
             <span></span>
           </div>
+
+          <p>
+            We make your search for the perfect life partner simple, safe and successful
+            <br />with trusted features that truly matter.
+          </p>
         </div>
 
         <div className="features-grid">
@@ -64,6 +69,8 @@ export default function Features() {
               <div className="feature-icon">{item.icon}</div>
 
               <h3>{item.title}</h3>
+
+              <div className="feature-divider"><span>♥</span></div>
 
               <p>{item.desc}</p>
             </div>

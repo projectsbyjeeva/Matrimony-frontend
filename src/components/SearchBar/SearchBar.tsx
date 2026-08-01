@@ -4,6 +4,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./SearchBar.css";
 
@@ -49,6 +50,7 @@ const popularLocations = [
 ];
 
 export default function SearchBar() {
+  const navigate = useNavigate();
   const [searchMode, setSearchMode] =
     useState<SearchMode>("matches");
 
@@ -130,7 +132,18 @@ export default function SearchBar() {
       return;
     }
 
-    console.log("Advanced match search:", searchData);
+    const params = new URLSearchParams({
+      lookingFor:
+        searchData.lookingFor === "bride"
+          ? "Bride"
+          : "Groom",
+    });
+
+    if (searchData.location) {
+      params.set("city", searchData.location);
+    }
+
+    navigate(`/search?${params.toString()}`);
   };
 
   return (
