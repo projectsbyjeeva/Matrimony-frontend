@@ -17,6 +17,11 @@
   --text:#2F2F2F;
   --text-light:#666666;
 
+  /* Shared section headings */
+  --section-heading-color:var(--primary);
+  --section-heading-size:39px;
+  --section-heading-size-mobile:32px;
+
   /* Border */
 
   --border:#ECECEC;

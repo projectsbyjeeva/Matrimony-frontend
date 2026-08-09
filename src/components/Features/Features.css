@@ -5,3 +5,15 @@
 @media(max-width:1050px){.features-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.feature-box{min-height:260px;padding:23px 18px}.feature-box h3{font-size:16px}.feature-box>p{font-size:12px}}
 @media(max-width:700px){.features{padding:48px 16px 58px}.features-heading{margin-bottom:25px}.features-heading>span{font-size:18px}.features-heading h2{font-size:32px}.features-heading>p{font-size:12px}.features-heading>p br{display:none}.features-grid{grid-template-columns:1fr 1fr;gap:13px}.feature-box{min-height:245px;padding:19px 12px}.feature-icon{width:70px;height:70px;margin-bottom:12px;font-size:27px}.feature-box h3{min-height:36px;font-size:14px}.feature-box>p{font-size:10px}}
 @media(max-width:430px){.features{padding-inline:13px}.features-heading h2{font-size:29px}.features-grid{grid-template-columns:1fr}.feature-box{min-height:auto;display:grid;grid-template-columns:76px 1fr;padding:18px;text-align:left}.feature-icon{grid-row:1/span 3;width:62px;height:62px;margin:0}.feature-box h3{min-height:auto;justify-content:flex-start}.feature-divider{justify-content:flex-start;margin:6px 0}.feature-box>p{font-size:12px}.feature-icon:after{font-size:10px}}
+
+/* Keep every landing-page section title visually consistent. */
+.features-heading h2 {
+  color: var(--section-heading-color);
+  font-size: var(--section-heading-size);
+}
+
+@media (max-width: 700px) {
+  .features-heading h2 {
+    font-size: var(--section-heading-size-mobile);
+  }
+}
