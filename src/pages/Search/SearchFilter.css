@@ -1,0 +1,107 @@
+/* All filter styling is scoped to the card to isolate it from shared page rules. */
+.search-card-area.search-card-compact {
+  --match-maroon: #a50034;
+  --match-gold: #d99a20;
+  --match-border: #f0d8dc;
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  width: 100%;
+  max-width: 100%;
+  margin: 12px auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #f1d8dc;
+  border-radius: 20px;
+  background: #fffdfb;
+  box-shadow: 0 16px 40px rgba(110, 30, 52, .1);
+}
+.search-card-compact .search-journey-panel {
+  min-width: 0;
+  min-height: 0;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 0;
+  background: radial-gradient(circle at 0 0, #c74a652e, transparent 60%), linear-gradient(145deg, #8c1230, #a50034 65%, #b0003a);
+  box-shadow: none;
+}
+.search-card-compact .journey-filter-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  margin: 0;
+  border: 1px solid #d99a2080;
+  background: #ffffff08;
+  color: #e8b541;
+  font-size: 18px;
+}
+.search-card-compact .search-journey-panel h1 { margin: 0; font-size: 27px; line-height: 1.4; text-align: center; }
+.search-card-compact .search-journey-panel h1 strong { color: #f3c556; }
+.search-card-compact .search-journey-panel > p { max-width: 210px; margin: 0; font-size: 13px; line-height: 1.7; text-align: center; color: #fff0f3; }
+.search-card-compact .search-filter-card { min-width: 0; border: 0; border-radius: 0; background: #fffdfb; box-shadow: none; backdrop-filter: none; }
+.search-card-compact .filter-card-header { min-height: 68px; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; flex-wrap: wrap; gap: 12px; background: linear-gradient(100deg, #fff, #fff9f5); }
+.search-card-compact .filter-card-title h2 { margin: 0; color: #8c1230; font: 700 22px/1.3 Georgia, serif; }
+.search-card-compact .profile-count { flex-shrink: 0; padding: 7px 10px; border: 1px solid var(--match-border); border-radius: 10px; background: #fffafb; color: #8c1230; font-size: 12px; }
+.search-card-compact .profile-count > svg { color: var(--match-gold); }
+.search-card-compact .match-filter-body { padding: 14px 24px 16px; }
+.search-card-compact .match-compact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: stretch; }
+.search-card-compact .match-gender,
+.search-card-compact .match-location-group { min-width: 0; width: 100%; margin: 0; padding: 0; border: 0; }
+.search-card-compact .match-gender { grid-column: auto; position: relative; padding-top: 23px; }
+.search-card-compact .match-gender legend { position: absolute; top: 0; left: 0; padding: 0; font-size: 14px; font-weight: 700; line-height: 18px; color: #3b2630; }
+.search-card-compact .match-gender legend svg { margin-right: 6px; color: var(--match-gold); }
+.search-card-compact .match-gender-buttons { display: flex; width: 100%; min-height: 42px; gap: 4px; padding: 3px; border: 1px solid var(--match-border); border-radius: 12px; background: #fff3f6; }
+.search-card-compact .match-gender-buttons button { appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 1; min-width: 0; min-height: 34px; padding: 5px 8px; border: 1px solid transparent; border-radius: 9px; background: #fffafc; color: #603442; line-height: 1.2; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, color .2s, box-shadow .2s; }
+.search-card-compact .match-gender-buttons button > span { font-size: 19px; }
+.search-card-compact .match-gender-buttons button:hover { background: #f8e4eb; }
+.search-card-compact .match-gender-buttons button[aria-pressed="true"] { background: linear-gradient(135deg, #a50034, #b0003a); color: #fff; box-shadow: 0 3px 9px #8c12302b; }
+.search-card-compact .filter-item { display: grid; grid-template-columns: 20px minmax(0, 1fr); min-width: 0; min-height: 65px; padding: 8px 10px; align-items: start; gap: 6px; border: 1px solid var(--match-border); border-radius: 12px; background: #fff; box-shadow: 0 2px 4px #8c123005; }
+.search-card-compact .filter-field-icon { height: 21px; color: var(--match-gold); font-size: 15px; }
+.search-card-compact .filter-field-control { min-width: 0; }
+.search-card-compact .filter-item label { display: block; margin: 0 0 3px; font-size: 14px; line-height: 20px; font-weight: 700; color: #3b2630; }
+.search-card-compact .filter-select__control { min-height: 24px !important; padding: 0; border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; font-size: 16px; }
+.search-card-compact .filter-select__value-container { padding: 0 !important; }
+.search-card-compact .filter-select__indicator { padding: 2px 0 2px 4px !important; color: #947581 !important; }
+.search-card-compact .filter-select__single-value,
+.search-card-compact .filter-select__placeholder { color: #3b2630 !important; line-height: 24px; min-width: 0; max-width: 100%; white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
+.search-card-compact .filter-select__placeholder { color: #8c7d84 !important; font-size: 13px; font-weight: 400; }
+.search-card-compact .filter-item:hover { border-color: #d7a6b5; background: #fffafb; }
+.search-card-compact .filter-item:focus-within { border-color: var(--match-maroon); box-shadow: 0 0 0 3px #a5003414; }
+.search-card-compact .filter-item-disabled { background: #f7f4f5; border-color: #e8e0e3; box-shadow: none; }
+.search-card-compact .filter-item-disabled .filter-field-icon { color: #b6a4aa; }
+.search-card-compact .filter-item-disabled .filter-select__placeholder { white-space: nowrap; color: #8c7d84 !important; font-size: 12px; }
+/* Keep the location fields grouped semantically within the compact grid. */
+.search-card-compact .match-location-group,
+.search-card-compact .match-location-grid { display: contents; }
+.search-card-compact .match-location-group legend { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.search-card-compact .filter-action { display: flex; min-height: 80px; margin: 0; padding: 12px 24px; align-items: center; justify-content: space-between; flex-direction: row; flex-wrap: wrap; gap: 16px; border-top: 1px solid #f2e3e7; background: linear-gradient(110deg, #fff9f7, #fff1f5); }
+.search-card-compact .filter-action > span { flex: 1 1 200px; color: #7b6d73; font-size: 12px; line-height: 1.6; }
+.search-card-compact .search-filter-btn { appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 236px; min-height: 54px; padding: 12px 20px; border: 0; border-radius: 12px; background: linear-gradient(120deg, #a50034, #b0003a); color: white; font-size: 16px; font-weight: 700; box-shadow: 0 7px 18px #a5003426; transition: transform .2s, box-shadow .2s; }
+.search-card-compact .search-filter-btn > svg { color: #eab334; }
+.search-card-compact .search-filter-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px #a5003438; }
+.search-card-compact button:focus-visible { outline: 3px solid var(--match-gold); outline-offset: 3px; }
+@media (max-width: 1100px) {
+  .search-card-area.search-card-compact { grid-template-columns: 205px minmax(0, 1fr); }
+  .search-card-compact .search-journey-panel { padding: 22px; }
+  .search-card-compact .search-journey-panel h1 { font-size: 24px; }
+  .search-card-compact .match-filter-body { padding: 14px 16px; }
+  .search-card-compact .filter-card-header, .search-card-compact .filter-action { padding-inline: 16px; }
+}
+@media (max-width: 700px) {
+  .search-card-area.search-card-compact { grid-template-columns: minmax(0, 1fr); }
+  .search-card-compact .search-journey-panel { display: none; }
+  .search-card-compact .match-compact-grid { grid-template-columns: minmax(0, 1fr); }
+  .search-card-compact .match-gender { grid-column: auto; }
+  .search-card-compact .match-filter-body { padding: 14px; }
+  .search-card-compact .filter-card-header { padding: 18px 14px 12px; }
+  .search-card-compact .filter-card-title h2 { font-size: 21px; }
+  .search-card-compact .filter-action { padding: 14px; flex-direction: column; align-items: stretch; gap: 10px; }
+  .search-card-compact .filter-action > span { flex: auto; text-align: center; }
+  .search-card-compact .search-filter-btn { min-width: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .search-card-compact *, .search-card-compact *::before, .search-card-compact *::after { transition: none !important; }
+}

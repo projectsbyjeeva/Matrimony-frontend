@@ -154,7 +154,7 @@
 .login-mobile-brand h2 {
   margin: 0;
 
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 800;
   letter-spacing: -1px;
 }
@@ -356,6 +356,10 @@
 
   font-size: 13px;
   font-weight: 700;
+}
+
+.login-form-group > label {
+  margin-bottom: 7px;
 }
 
 .login-form-group label span {
@@ -688,11 +692,11 @@
   }
 
   .login-mobile-brand h2 {
-    font-size: 28px;
+    font-size: 36px;
   }
 
   .login-mobile-brand p {
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 5px;
   }
 

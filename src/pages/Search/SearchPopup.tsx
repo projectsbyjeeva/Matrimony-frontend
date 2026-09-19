@@ -3,6 +3,7 @@ import Footer from "../../components/Footer/Footer";
 import { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+  FaArrowRight,
   FaBriefcase,
   FaBuilding,
   FaCity,
@@ -13,7 +14,6 @@ import {
   FaMapMarkerAlt,
   FaRing,
   FaSearch,
-  FaSlidersH,
   FaUserFriends,
   FaUsers,
 } from "react-icons/fa";
@@ -21,6 +21,7 @@ import Select from "react-select";
 import { profiles } from "../../data/profileData";
 
 import "./SearchPopup.css";
+import "./SearchFilter.css";
 
 type FilterOption = { value: string; label: string };
 type FilterValues = Record<string, string>;
@@ -28,42 +29,101 @@ type FilterValues = Record<string, string>;
 const toOptions = (values: string[]): FilterOption[] =>
   values.map((value) => ({ value, label: value }));
 
-const searchFilters = [
-  { id: "lookingFor", label: "Looking For", icon: FaUserFriends, options: toOptions(["Any", "Bride", "Groom"]) },
-  { id: "age", label: "Age", icon: FaUsers, options: toOptions(["Any", "18 - 25", "26 - 30", "31 - 35", "36 - 40"]) },
+const additionalFilters = [
   { id: "religion", label: "Religion", icon: FaLandmark, options: toOptions(["Any", "Hindu", "Christian", "Muslim"]) },
   { id: "community", label: "Community", icon: FaUserFriends, options: toOptions(["Any", "Vanniyar", "Gounder", "Nadar"]) },
   { id: "maritalStatus", label: "Marital Status", icon: FaRing, options: toOptions(["Any", "Never Married", "Divorced", "Widowed"]) },
   { id: "education", label: "Education", icon: FaGraduationCap, options: toOptions(["Any", "BE", "MBA", "Doctor"]) },
   { id: "occupation", label: "Occupation", icon: FaBriefcase, options: toOptions(["Any", "Engineer", "Teacher", "Business"]) },
-  { id: "country", label: "Country", icon: FaGlobeAsia, options: toOptions(["Any", "India", "Singapore", "Malaysia"]) },
-  { id: "state", label: "State", icon: FaBuilding, options: toOptions(["Any", "Tamil Nadu", "Karnataka", "Kerala"]) },
-  { id: "city", label: "City", icon: FaCity, options: toOptions(["Any", "Chennai", "Coimbatore", "Madurai", "Salem", "Erode", "Trichy"]) },
 ];
+
+const locations: Record<string, Record<string, string[]>> = {
+  India: {
+    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Salem", "Erode", "Trichy"],
+    Karnataka: ["Bengaluru", "Mysuru"],
+    Kerala: ["Kochi", "Thiruvananthapuram"],
+  },
+  Singapore: { Singapore: ["Singapore"] },
+  Malaysia: { Selangor: ["Shah Alam", "Petaling Jaya"], "Kuala Lumpur": ["Kuala Lumpur"] },
+};
+const isSelected = (value?: string) => Boolean(value && value !== "Any");
+const ages = Array.from({ length: 63 }, (_, index) => String(index + 18));
+const labels: Record<string, string> = {
+  lookingFor: "Looking For", country: "Country", state: "State", city: "City",
+  ...Object.fromEntries(additionalFilters.map(({ id, label }) => [id, label])),
+};
+const findMatches = (values: FilterValues) => profiles.filter((profile) =>
+  Object.entries(values).every(([id, value]) => {
+    if (!isSelected(value)) return true;
+    if (id === "ageFrom") return profile.age >= Number(value);
+    if (id === "ageTo") return profile.age <= Number(value);
+    return String(profile[id as keyof typeof profile]) === value;
+  })
+);
+
+// Keep dependent locations valid when editing filters.
+const updateFilter = (current: FilterValues, id: string, value: string): FilterValues => {
+  const next = { ...current, [id]: value };
+  if (id === "country") { next.state = "Any"; next.city = "Any"; }
+  if (id === "state") next.city = "Any";
+  if (id === "ageFrom" && isSelected(value) && isSelected(next.ageTo) && +value > +next.ageTo) next.ageTo = value;
+  if (id === "ageTo" && isSelected(value) && isSelected(next.ageFrom) && +value < +next.ageFrom) next.ageFrom = value;
+  return next;
+};
 
 export default function SearchPopup() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [filters, setFilters] = useState<FilterValues>(() => ({
-    lookingFor: searchParams.get("lookingFor") || "Any",
-    city: searchParams.get("city") || "Any",
-  }));
-  const results = useMemo(
-    () => profiles.filter((profile) =>
-      searchFilters.every(({ id }) => {
-        const selected = filters[id];
-        if (!selected || selected === "Any") return true;
-
-        if (id === "age") {
-          const [minimum, maximum] = selected.split(" - ").map(Number);
-          return profile.age >= minimum && profile.age <= maximum;
+  const [filters, setFilters] = useState<FilterValues>(() => {
+    const initial: FilterValues = {};
+    const gender = searchParams.get("lookingFor");
+    if (gender === "Bride" || gender === "Groom") initial.lookingFor = gender;
+    const city = searchParams.get("city");
+    if (city) {
+      for (const [country, states] of Object.entries(locations)) {
+        for (const [state, cities] of Object.entries(states)) {
+          const match = cities.find((item) => item.toLowerCase() === city.trim().toLowerCase());
+          if (match) Object.assign(initial, { country, state, city: match });
         }
-
-        return String(profile[id as keyof typeof profile]) === selected;
-      })
-    ),
-    [filters]
+      }
+    }
+    for (const id of ["ageFrom", "ageTo"]) {
+      const value = searchParams.get(id);
+      if (value && ages.includes(value)) Object.assign(initial, updateFilter(initial, id, value));
+    }
+    return initial;
+  });
+  const [appliedFilters, setAppliedFilters] = useState<FilterValues>(filters);
+  const results = useMemo(() => findMatches(appliedFilters), [appliedFilters]);
+  const previewCount = useMemo(() => findMatches(filters).length, [filters]);
+  const pendingChanges = [...Object.keys(labels), "ageFrom", "ageTo"].some(
+    (id) => (filters[id] || "Any") !== (appliedFilters[id] || "Any")
   );
+  const renderSelect = (
+    id: string, label: string, Icon: typeof FaUsers, values: FilterOption[], disabled = false, placeholder?: string
+  ) => {
+    const value = filters[id] || "Any";
+    return (
+      <div className={`filter-item${disabled ? " filter-item-disabled" : ""}`} key={id}>
+        <span className="filter-field-icon"><Icon aria-hidden="true" /></span>
+        <div className="filter-field-control">
+          <label htmlFor={id}>{label}</label>
+          <Select<FilterOption>
+            inputId={id}
+            classNamePrefix="filter-select"
+            value={isSelected(value) ? { value, label: value } : null}
+            placeholder={placeholder || (id === "ageFrom" ? "Min age" : id === "ageTo" ? "Max age" : id === "maritalStatus" ? "Select status" : `Select ${label.toLowerCase()}`)}
+            options={values.map((option) => option.value === "Any" ? { ...option, label: "No preference" } : option)}
+            onChange={(option) => setFilters((current) => updateFilter(current, id, option?.value || "Any"))}
+            isDisabled={disabled}
+            isSearchable={false}
+            menuPortalTarget={document.body}
+            menuPosition="fixed"
+          />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -75,92 +135,61 @@ export default function SearchPopup() {
       <section className="search-page">
         <div className="container">
 
-          <div className="search-card-area">
+          <div className="search-card-area search-card-compact">
             <aside className="search-journey-panel">
-              <span className="journey-filter-icon"><FaSlidersH /></span>
-              <h1>Find your <strong>perfect match</strong></h1>
-              <div className="journey-divider"><span>♥</span></div>
-              <p>Discover verified Valluvan brides and grooms who match your preferences.</p>
-              <div className="journey-verified">
-                <span>✓</span>
-                <div><strong>100% Verified Profiles</strong><small>Safe • Secure • Trusted</small></div>
-              </div>
+              <span className="journey-filter-icon"><FaHeart aria-hidden="true" /></span>
+              <h1>Your next <strong>chapter starts here.</strong></h1>
+              <p>Find someone who shares your world.</p>
             </aside>
-              <form
-                className="search-filter-card"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                }}
-              >
-                <div className="filter-card-header">
-                  <div className="filter-card-title">
-                    <div>
-                      <h2>Let's find your life partner</h2>
+            <form className="search-filter-card" onSubmit={(event) => {
+              event.preventDefault();
+              setAppliedFilters({ ...filters });
+            }}>
+              <div className="filter-card-header">
+                <div className="filter-card-title"><h2>Let's find your life partner</h2></div>
+                <div className="profile-count"><FaUsers aria-hidden="true" /><span><strong>250+</strong> Verified Members</span></div>
+              </div>
+              <div className="match-filter-body">
+                <div className="match-compact-grid">
+                  <fieldset className="match-gender">
+                    <legend><FaUserFriends aria-hidden="true" /> Looking For</legend>
+                    <div className="match-gender-buttons">
+                      {["Bride", "Groom"].map((gender) => (
+                        <button key={gender} type="button" aria-label={gender} title={gender} aria-pressed={filters.lookingFor === gender}
+                          onClick={() => setFilters((current) => ({ ...current, lookingFor: current.lookingFor === gender ? "Any" : gender }))}>
+                          <span aria-hidden="true">{gender === "Bride" ? "👰" : "🤵"}</span>
+                        </button>
+                      ))}
                     </div>
+                  </fieldset>
+                  {renderSelect("ageFrom", "Age From", FaUsers, toOptions(["Any", ...ages]))}
+                  {renderSelect("ageTo", "Age To", FaUsers, toOptions(["Any", ...ages.filter((age) => !isSelected(filters.ageFrom) || +age >= +filters.ageFrom)]))}
+                  {[...additionalFilters.slice(2), ...additionalFilters.slice(0, 2)].map(({ id, label, icon, options }) => renderSelect(id, label, icon, options))}
+                <fieldset className="match-location-group">
+                  <legend><FaMapMarkerAlt aria-hidden="true" /> Location <span>Choose where you’d like to find your match</span></legend>
+                  <div className="match-location-grid">
+                    {renderSelect("country", "Country", FaGlobeAsia, toOptions(["Any", ...Object.keys(locations)]))}
+                    {renderSelect("state", "State", FaBuilding, toOptions(["Any", ...Object.keys(locations[filters.country] || {})]), !isSelected(filters.country), isSelected(filters.country) ? "Select state" : "Choose country first")}
+                    {renderSelect("city", "City", FaCity, toOptions(["Any", ...(locations[filters.country]?.[filters.state] || [])]), !isSelected(filters.state), isSelected(filters.state) ? "Select city" : "Choose state first")}
                   </div>
-
-                  <div className="profile-count">
-                    <FaUsers aria-hidden="true" />
-                    <span><strong>250+</strong> verified profiles</span>
-                  </div>
+                </fieldset>
                 </div>
-
-                <div className="search-filter-bar">
-                  {searchFilters.map((filter) => {
-                    const FilterIcon = filter.icon;
-                    const selectedValue = filters[filter.id] ?? "Any";
-                    return (
-                    <div className="filter-item" key={filter.id}>
-                      <span className="filter-field-icon"><FilterIcon /></span>
-                      <div className="filter-field-control">
-                        <label htmlFor={filter.id}>{filter.label}</label>
-                        <Select<FilterOption>
-                          key={`${filter.id}-${selectedValue}`}
-                          inputId={filter.id}
-                          classNamePrefix="filter-select"
-                          value={{ value: selectedValue, label: selectedValue }}
-                          options={filter.options}
-                          getOptionLabel={(option) => option.label}
-                          getOptionValue={(option) => option.value}
-                          formatOptionLabel={(option, meta) =>
-                            meta.context === "value"
-                              ? selectedValue
-                              : option.label
-                          }
-                          onChange={(option) => {
-                            const nextValue = option?.value ?? "Any";
-                            setFilters((current) => ({
-                              ...current,
-                              [filter.id]: nextValue,
-                            }));
-                          }}
-                          isClearable={false}
-                          isSearchable={false}
-                          menuPortalTarget={document.body}
-                          menuPosition="fixed"
-                        />
-                      </div>
-                    </div>
-                  )})}
-
-                  <div className="filter-action">
-                    <span><b>❖</b> Ready to meet your match?</span>
-                    <button type="submit" className="search-filter-btn">
-                      <FaSearch aria-hidden="true" />
-                      Search Profiles
-                    </button>
-                  </div>
-                </div>
-              </form>
+              </div>
+              <div className="filter-action">
+                <span>{pendingChanges ? "Preferences changed. Search to update your matches." : "A meaningful connection starts with a simple search."}</span>
+                <button type="submit" className="search-filter-btn">
+                  <FaSearch aria-hidden="true" /> View {previewCount} {previewCount === 1 ? "Match" : "Matches"} <FaArrowRight aria-hidden="true" />
+                </button>
+              </div>
+            </form>
           </div>
-
           {/* Results */}
 
           <div className="profiles-header">
 
             <h2>Matching Profiles</h2>
 
-            <span>{results.length} Profiles Found</span>
+            <span role="status">{results.length} Profiles Found</span>
 
           </div>
 

@@ -159,6 +159,8 @@ export default function Navbar({
           <button
             type="button"
             className="mobile-menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen(!menuOpen)}
           >
@@ -169,7 +171,7 @@ export default function Navbar({
       </div>
 
       {/* Mobile Navigation */}
-      <div className={`mobile-nav ${menuOpen ? "show" : ""}`}>
+      <div id="mobile-navigation" className={`mobile-nav ${menuOpen ? "show" : ""}`}>
 
         <NavLink to="/" end onClick={closeMenu}>
           Home

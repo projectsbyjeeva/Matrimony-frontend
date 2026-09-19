@@ -104,8 +104,8 @@
 }
 
 .logo-image-wrapper {
-    width: 62px;
-    height: 62px;
+    width: 72px;
+    height: 72px;
 
     display: flex;
     align-items: center;
@@ -203,7 +203,7 @@
     text-decoration: none;
 
     font-family: inherit;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     line-height: normal;
 
@@ -390,7 +390,7 @@ button.nav-link {
     text-decoration: none;
 
     font-family: inherit;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
 
     cursor: pointer;
@@ -443,10 +443,13 @@ button.nav-link {
 
     .mobile-nav.show {
         position: absolute;
-        top: 90px;
+        top: 100%;
         left: 0;
 
         width: 100%;
+        max-height: calc(100dvh - 90px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
 
         display: flex;
         flex-direction: column;
@@ -475,7 +478,7 @@ button.nav-link {
 
         text-decoration: none;
 
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 500;
 
         border-bottom: 1px solid rgba(0, 0, 0, 0.07);
@@ -508,7 +511,7 @@ button.nav-link {
         text-align: left;
 
         font-family: inherit;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 500;
 
         cursor: pointer;
@@ -524,7 +527,8 @@ button.nav-link {
     .mobile-login,
     .mobile-register {
         width: 100%;
-        height: 48px;
+        min-height: 48px;
+        flex-shrink: 0;
 
         margin-top: 14px;
 
@@ -579,8 +583,8 @@ button.nav-link {
     }
 
     .logo-image-wrapper {
-        width: 49px;
-        height: 49px;
+        width: 58px;
+        height: 58px;
     }
 
     .logo-text h2 {
@@ -600,7 +604,7 @@ button.nav-link {
     }
 
     .mobile-nav.show {
-        top: 75px;
+        max-height: calc(100dvh - 75px);
 
         padding: 16px 18px 22px;
     }
@@ -620,8 +624,8 @@ button.nav-link {
     }
 
     .logo-image-wrapper {
-        width: 44px;
-        height: 44px;
+        width: 52px;
+        height: 52px;
     }
 
     .logo-text h2 {
@@ -645,8 +649,8 @@ button.nav-link {
 
 @media (max-width: 360px) {
     .logo-image-wrapper {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
     }
 
     .logo-text h2 {
