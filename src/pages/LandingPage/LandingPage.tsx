@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import Navbar from "../../components/Navbar/Navbar";
@@ -11,14 +11,12 @@ import SuccessStories from "../../components/SuccessStories/SuccessStories";
 import CTA from "../../components/CTA/CTA";
 import Footer from "../../components/Footer/Footer";
 
-import Login from "../Login/Login";
-import Register from "../Register/Register";
+import { useDemoAuth } from "../../context/DemoAuthContext";
 
 import "./LandingPage.css";
 
 export default function LandingPage() {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  const { openRegister } = useDemoAuth();
 
   const location = useLocation();
 
@@ -45,10 +43,7 @@ export default function LandingPage() {
 
   return (
     <>
-      <Navbar
-        onLoginClick={() => setShowLogin(true)}
-        onRegisterClick={() => setShowRegister(true)}
-      />
+      <Navbar />
 
       <Hero />
 
@@ -58,7 +53,7 @@ export default function LandingPage() {
 
       <Features />
 
-      <FeaturedProfiles onRegisterClick={() => setShowRegister(true)} />
+      <FeaturedProfiles onRegisterClick={openRegister} />
 
       {/* Success Stories Section */}
       <section
@@ -78,15 +73,6 @@ export default function LandingPage() {
         <Footer />
       </footer>
 
-      <Login
-        open={showLogin}
-        onClose={() => setShowLogin(false)}
-      />
-
-      <Register
-        open={showRegister}
-        onClose={() => setShowRegister(false)}
-      />
     </>
   );
 }

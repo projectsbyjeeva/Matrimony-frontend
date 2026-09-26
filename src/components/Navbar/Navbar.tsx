@@ -7,16 +7,21 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import logoImage from "../../assets/images/vallu-2.png";
 import { Language, useLanguage } from "../../context/LanguageContext";
+import { useDemoAuth } from "../../context/DemoAuthContext";
+import Notifications from "./Notifications";
 
 type NavbarProps = {
-  onLoginClick: () => void;
-  onRegisterClick: () => void;
+  onLoginClick?: () => void;
+  onRegisterClick?: () => void;
 };
 
 export default function Navbar({
   onLoginClick,
   onRegisterClick,
 }: NavbarProps) {
+  const { user, notifications, respond, logout, openLogin, openRegister } = useDemoAuth();
+  const loginClick = onLoginClick || openLogin;
+  const registerClick = onRegisterClick || openRegister;
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const { language, setLanguage } = useLanguage();
@@ -56,7 +61,7 @@ export default function Navbar({
   };
 
   return (
-    <header className="navbar">
+    <header className={`navbar${user ? " navbar-signed-in" : ""}`}>
       <div className="container navbar-container">
 
         {/* Logo */}
@@ -141,9 +146,13 @@ export default function Navbar({
             )}
           </div>
 
-          <button
+          {user ? <>
+            <Notifications key={user.id} notifications={notifications} onRespond={respond} />
+            <button type="button" data-no-translate="true" className="demo-account-button" onClick={openLogin}>Demo: {user.name}</button>
+            <button type="button" className="login-btn" onClick={logout}>Log out</button>
+          </> : <><button
             className="login-btn"
-            onClick={onLoginClick}
+            onClick={loginClick}
           >
             <FaUserCircle />
             Login
@@ -151,10 +160,11 @@ export default function Navbar({
 
           <button
             className="register-btn"
-            onClick={onRegisterClick}
+            onClick={registerClick}
           >
             Register Free
           </button>
+          </>}
 
           <button
             type="button"
@@ -197,11 +207,14 @@ export default function Navbar({
           Contact
         </button>
 
-        <button
+        {user ? <>
+          <button type="button" data-no-translate="true" className="mobile-login" onClick={() => { closeMenu(); openLogin(); }}>Switch demo account ({user.name})</button>
+          <button type="button" className="mobile-register" onClick={() => { closeMenu(); logout(); }}>Log out</button>
+        </> : <><button
           className="mobile-login"
           onClick={() => {
             closeMenu();
-            onLoginClick();
+            loginClick();
           }}
         >
           Login
@@ -211,11 +224,12 @@ export default function Navbar({
           className="mobile-register"
           onClick={() => {
             closeMenu();
-            onRegisterClick();
+            registerClick();
           }}
         >
           Register Free
         </button>
+        </>}
 
       </div>
     </header>

@@ -731,3 +731,9 @@
     flex-direction: column;
   }
 }
+.demo-login-panel{margin:18px 0;padding:18px;border:1px solid #e9c5d1;border-radius:12px;background:#fff6f0}
+.demo-login-panel strong{color:var(--primary)}
+.demo-login-panel p{margin:8px 0;font-size:12px;line-height:1.5;color:#6b535c}
+.demo-login-panel label{display:block;margin:12px 0 6px;font-size:12px;font-weight:700}
+.demo-login-panel select{width:100%;min-height:42px;padding:8px;border:1px solid #d8b8c3;border-radius:8px;background:#fff}
+.demo-login-panel button{width:100%;margin-top:10px;min-height:44px;padding:10px;border:0;border-radius:8px;background:var(--primary);color:#fff;font-weight:700}

@@ -28,3 +28,12 @@ export const profiles: Profile[] = [
   { id: "harini", image: bride3, name: "Harini", lookingFor: "Bride", age: 23, religion: "Hindu", community: "Gounder", maritalStatus: "Never Married", education: "BE", occupation: "Teacher", country: "India", state: "Tamil Nadu", city: "Erode" },
   { id: "vignesh", image: groom1, name: "Vignesh", lookingFor: "Groom", age: 30, religion: "Christian", community: "Nadar", maritalStatus: "Divorced", education: "MBA", occupation: "Business", country: "Singapore", state: "Tamil Nadu", city: "Trichy" },
 ];
+
+// Include the additional home-page profiles as selectable demo accounts.
+export const demoProfiles: Profile[] = [
+  ...profiles,
+  { ...profiles[0], id: "nithya", name: "Nithya", age: 26, city: "Tirunelveli", education: "M.Com", occupation: "Banking Professional" },
+  { ...profiles[3], id: "surya", name: "Surya", age: 27, city: "Chennai", occupation: "Product Designer" },
+  { ...profiles[4], id: "keerthana", name: "Keerthana", age: 24, city: "Coimbatore", education: "B.Arch", occupation: "Architect" },
+  { ...profiles[1], id: "pradeep", name: "Pradeep", age: 31, city: "Madurai", education: "M.Tech", occupation: "Senior Engineer" },
+];

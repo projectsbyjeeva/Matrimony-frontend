@@ -25,5 +25,11 @@ html[lang="ta"] .advanced-search-section{margin-top:-25px}
 @media(max-width:600px){.advanced-search-section{margin-top:-18px;padding-bottom:38px}.advanced-search-section .container{width:94%}.advanced-search-shell{border-radius:18px}.advanced-search-intro{padding:24px 21px}.advanced-search-intro h2{font-size:23px}.advanced-search-form{padding:24px 17px 18px}.search-mode-switch{align-self:stretch;margin-top:0}.search-mode-switch button{flex:1;justify-content:center}.primary-search-grid{display:block}.primary-search-grid>.field-block+.field-block,.primary-search-grid>.field-block:last-child{margin-top:23px;padding:23px 0 0;border-top:1px solid #eadbd5;border-left:0}.advanced-filter-panel.open{max-height:500px}.advanced-filter-grid{grid-template-columns:1fr 1fr;padding:13px}.search-actions-row{align-items:stretch;flex-direction:column}.primary-search-button{width:100%}.popular-location-row{align-items:flex-start;flex-direction:column}.profile-id-search{align-items:stretch;flex-direction:column;padding:22px}.profile-id-control{flex-direction:column}.profile-id-control button{justify-content:center}.privacy-note{line-height:1.5}}
 @media(max-width:600px){html[lang="ta"] .advanced-search-section{margin-top:18px}}
 
+/* Overlap the couple's faded lower edge on mobile. */
+@media(max-width:768px){
+  .advanced-search-section{margin-top:-70px}
+  html[lang="ta"] .advanced-search-section{margin-top:-34px}
+}
+
 /* Readable typography across the landing-page search controls. */
 .intro-trust-list small,.gender-selector button small,.select-box small,.primary-search-button small{font-size:10px}.form-kicker,.advanced-filter-grid .field-block>label,.popular-location-row button,.privacy-note,.profile-id-content>span{font-size:11px}.search-mode-switch button,.icon-select select,.popular-location-row>span,.profile-id-control button{font-size:12px}.gender-selector button strong,.input-box input,.profile-id-content p{font-size:13px}.select-box select,.field-block>label,.advanced-toggle{font-size:14px}

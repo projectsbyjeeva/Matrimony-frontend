@@ -1,5 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import "./Login.css";
+import { useDemoAuth } from "../../context/DemoAuthContext";
+import { demoProfiles } from "../../data/profileData";
 import {
   FaArrowRight,
   FaEnvelope,
@@ -24,6 +26,9 @@ export default function Login({
   onClose,
   onRegisterClick,
 }: LoginProps) {
+  const { login } = useDemoAuth();
+  const [demoAccount, setDemoAccount] = useState("arun");
+  const [demoError, setDemoError] = useState("");
   const [loginType, setLoginType] = useState<"password" | "otp">("password");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -107,15 +112,7 @@ export default function Login({
 
     if (Object.keys(newErrors).length > 0) return;
 
-    console.log({
-      loginType,
-      identifier,
-      password,
-      otp,
-      rememberMe,
-    });
-
-    // Connect API here.
+    setDemoError("Real account login is not connected. Choose a sample account above to try the demo.");
   };
 
   const handleOverlayClick = (
@@ -225,6 +222,20 @@ export default function Login({
                 Continue your partner search and manage your profile.
               </p>
             </div>
+
+            <section className="demo-login-panel" aria-label="Demo login">
+              <strong>Try with a sample account</strong>
+              <p>Browser-only demo. Use two different accounts to send and approve a favourite request.</p>
+              <label htmlFor="demo-account">Demo account</label>
+              <select id="demo-account" value={demoAccount} onChange={(event) => setDemoAccount(event.target.value)}>
+                {demoProfiles.map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.lookingFor}</option>)}
+              </select>
+              <button type="button" onClick={() => {
+                try { login(demoAccount); onClose(); }
+                catch { setDemoError("Please enable browser storage to use demo accounts."); }
+              }}>Continue with demo account</button>
+              {demoError && <p role="alert">{demoError}</p>}
+            </section>
 
             <div className="login-type-tabs">
               <button

@@ -123,6 +123,12 @@
 }
 
 .view-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
     width: 100%;
     height: 50px;
     margin-top: auto;
@@ -190,19 +196,6 @@
     height: 100%;
     object-fit: cover;
     object-position: center 20%;
-}
-
-.preview-timer {
-    position: absolute;
-    right: 15px;
-    bottom: 15px;
-    padding: 9px 13px;
-    border-radius: 999px;
-    background: rgba(139, 13, 47, .94);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    box-shadow: 0 7px 20px rgba(0, 0, 0, .18);
 }
 
 .featured-preview-content {

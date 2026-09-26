@@ -3,11 +3,14 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-import { profiles } from "../../data/profileData";
+import { demoProfiles as profiles } from "../../data/profileData";
 import logoImage from "../../assets/images/vallu-2.png";
 import "./ProfileDetails.css";
+import { useDemoAuth } from "../../context/DemoAuthContext";
+import FavouriteButton from "../../components/FeaturedProfiles/FavouriteButton";
 
 export default function ProfileDetails() {
+  const { user, canView, openLogin } = useDemoAuth();
   const { profileId } = useParams();
   const profile = profiles.find((item) => item.id === profileId);
 
@@ -21,7 +24,7 @@ export default function ProfileDetails() {
   if (!profile) {
     return (
       <>
-        <Navbar onLoginClick={() => {}} onRegisterClick={() => {}} />
+        <Navbar />
         <main className="profile-details-page profile-not-found">
           <h1>Profile not found</h1>
           <Link to="/search">Back to Search</Link>
@@ -32,7 +35,7 @@ export default function ProfileDetails() {
 
   return (
     <>
-      <Navbar onLoginClick={() => {}} onRegisterClick={() => {}} />
+      <Navbar />
       <main className="profile-details-page">
         <div className="profile-details-container">
           <div className="profile-page-actions">
@@ -41,7 +44,7 @@ export default function ProfileDetails() {
             </Link>
           </div>
 
-          <article className="profile-details-card">
+          <article className="profile-details-card" key={profile.id}>
             <div className="profile-print-brand">
               <img src={logoImage} alt="Valluvan Matrimony" />
               <div>
@@ -61,6 +64,8 @@ export default function ProfileDetails() {
             </header>
 
             <div className="profile-details-body">
+              <p className="demo-profile-note">Sample profile · Browser demo only</p>
+              {canView(profile.id) ? <>
               <section className="profile-detail-section">
                 <h2>Personal Details</h2>
                 <dl className="profile-detail-grid">
@@ -95,12 +100,18 @@ export default function ProfileDetails() {
                 <h2>Contact Details</h2>
                 <dl className="profile-detail-grid">
                   <div><dt>Contact Person</dt><dd>Parent / Guardian</dd></div>
-                  <div><dt>Phone</dt><dd>+91 9XXXX XXXXX</dd></div>
-                  <div><dt>Email</dt><dd>profile***@email.com</dd></div>
+                  <div><dt>Phone</dt><dd>00000 00000 (demo)</dd></div>
+                  <div><dt>Email</dt><dd>{profile.id}@example.com</dd></div>
                   <div><dt>Location</dt><dd>{profile.city}, {profile.state}</dd></div>
                 </dl>
-                <p className="contact-note">Contact details are protected and shared only after mutual interest.</p>
+                <p className="contact-note">Approval granted. This sample profile uses placeholder contact details.</p>
               </section>
+              </> : <section className="profile-access-gate">
+                <h2>Full profile is private</h2>
+                <p>Add {profile.name} to favourites to request access. Their approval unlocks personal, family and contact details for your account.</p>
+                {!user && <button type="button" onClick={openLogin}>Log in to request access</button>}
+                {user && <FavouriteButton profileId={profile.id} name={profile.name} />}
+              </section>}
             </div>
           </article>
         </div>

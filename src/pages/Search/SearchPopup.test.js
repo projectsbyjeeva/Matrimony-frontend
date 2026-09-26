@@ -1,5 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render as rtlRender, screen } from '@testing-library/react';
 import SearchPopup from './SearchPopup';
+import { DemoAuthProvider } from '../../context/DemoAuthContext';
+const render = (ui) => rtlRender(<DemoAuthProvider>{ui}</DemoAuthProvider>);
 
 jest.mock('../../components/Navbar/Navbar', () => () => null);
 jest.mock('../../components/Footer/Footer', () => () => null);

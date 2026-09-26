@@ -1,5 +1,6 @@
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import FavouriteButton from "../../components/FeaturedProfiles/FavouriteButton";
 import { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -127,10 +128,7 @@ export default function SearchPopup() {
 
   return (
     <>
-      <Navbar
-        onLoginClick={() => {}}
-        onRegisterClick={() => {}}
-      />
+      <Navbar />
 
       <section className="search-page">
         <div className="container">
@@ -198,9 +196,7 @@ export default function SearchPopup() {
               <article className="search-profile-card" key={profile.name}>
                 <div className="search-profile-image">
                   <img src={profile.image} alt={profile.name} />
-                  <button type="button" className="search-like-btn" aria-label={`Like ${profile.name}`}>
-                    <FaHeart aria-hidden="true" />
-                  </button>
+                  <FavouriteButton profileId={profile.id} name={profile.name} className="search-like-btn" />
                 </div>
                 <div className="search-profile-content">
                   <h3>{profile.name}<span>{profile.age} Years</span></h3>
@@ -231,6 +227,7 @@ export default function SearchPopup() {
       </section>
 
       <Footer />
+
     </>
   );
 }

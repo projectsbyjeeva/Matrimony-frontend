@@ -60,3 +60,9 @@
   .profile-detail-grid dd { padding: 1.2mm 2mm !important; font-size: 7.5pt !important; line-height: 1.2; }
   .contact-note { margin-top: 1.5mm; font-size: 7pt; }
 }
+
+.demo-profile-note{margin:0 0 20px;color:#806c74;font-size:12px}
+.profile-access-gate{padding:24px;border:1px solid #edced8;border-radius:14px;background:#fff8f3}
+.profile-access-gate h2{color:var(--primary);font-size:22px}
+.profile-access-gate p{margin:12px 0 20px;line-height:1.7}
+.profile-access-gate>button{padding:12px 16px;border:0;border-radius:10px;background:var(--primary);color:#fff;font-weight:700}

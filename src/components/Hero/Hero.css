@@ -97,7 +97,15 @@ html[lang="ta"] .hero .feature-card {
 }
 
 @media (max-width: 768px) {
-  .hero { position: relative; min-height: 595px; padding: 99px 0 24px; overflow: hidden; background-position: 58% center; }
+  .hero {
+    position: relative;
+    min-height: 595px;
+    padding: 99px 0 24px;
+    overflow: hidden;
+    /* Keep the overlays full-size and crop the photo without stretching it. */
+    background-size: 100% 100%, 100% 100%, cover;
+    background-position: center, center, 72% center;
+  }
   .hero-container { position: relative; width: 100%; max-width: 100%; min-height: 470px; margin: 0; padding: 18px 14px 12px 16px; display: block; }
   .hero-content { position: relative; z-index: 10; width: 58%; max-width: 330px; min-height: 440px; margin: 0; padding: 0; text-align: left; }
   .hero-badge { gap: 5px; margin-bottom: 10px; padding: 5px 8px; font-size: 8px; }

@@ -1,5 +1,8 @@
 import "./FeaturedProfiles.css";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDemoAuth } from "../../context/DemoAuthContext";
+import FavouriteButton from "./FavouriteButton";
 
  import bride1 from "../../assets/images/bride-1.png";
 import groom1 from "../../assets/images/groom-1.png";
@@ -12,7 +15,6 @@ import {
   FaMapMarkerAlt,
   FaGraduationCap,
   FaBriefcase,
-  FaHeart,
   FaLock,
   FaTimes,
 } from "react-icons/fa";
@@ -105,26 +107,20 @@ type FeaturedProfilesProps = {
 };
 
 export default function FeaturedProfiles({ onRegisterClick }: FeaturedProfilesProps) {
+  const { user, canView } = useDemoAuth();
   const [showRegisterNotice, setShowRegisterNotice] = useState(false);
   const [previewProfile, setPreviewProfile] = useState<(typeof profiles)[number] | null>(null);
-  const [secondsLeft, setSecondsLeft] = useState(45);
 
   useEffect(() => {
     if (!previewProfile) return;
 
-    if (secondsLeft <= 0) {
+    const timer = window.setTimeout(() => {
       setPreviewProfile(null);
       setShowRegisterNotice(true);
-      return;
-    }
-
-    const timer = window.setTimeout(
-      () => setSecondsLeft((seconds) => seconds - 1),
-      1000
-    );
+    }, 80_000);
 
     return () => window.clearTimeout(timer);
-  }, [previewProfile, secondsLeft]);
+  }, [previewProfile]);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -161,9 +157,7 @@ export default function FeaturedProfiles({ onRegisterClick }: FeaturedProfilesPr
 
                 <img src={profile.image} alt={profile.name} />
 
-                <button className="like-btn">
-                  <FaHeart />
-                </button>
+                <FavouriteButton profileId={profile.name.toLowerCase()} name={profile.name} className="like-btn" />
 
               </div>
 
@@ -189,16 +183,15 @@ export default function FeaturedProfiles({ onRegisterClick }: FeaturedProfilesPr
                   {profile.job}
                 </p>
 
-                <button
+                {user ? <Link className="view-btn" to={`/profile/${profile.name.toLowerCase()}`}>View Profile</Link> : <button
                   type="button"
                   className="view-btn"
                   onClick={() => {
-                    setSecondsLeft(45);
                     setPreviewProfile(profile);
                   }}
                 >
                   View Profile
-                </button>
+                </button>}
 
               </div>
 
@@ -231,7 +224,6 @@ export default function FeaturedProfiles({ onRegisterClick }: FeaturedProfilesPr
 
             <div className="featured-preview-image">
               <img src={previewProfile.image} alt={previewProfile.name} />
-              <span className="preview-timer">Preview ends in {secondsLeft}s</span>
             </div>
 
             <div className="featured-preview-content">
@@ -246,9 +238,9 @@ export default function FeaturedProfiles({ onRegisterClick }: FeaturedProfilesPr
                 <div><dt>Profile Type</dt><dd>Verified Member</dd></div>
               </dl>
 
-              <p className="preview-message">
-                Register free to continue viewing full biodata and protected contact details.
-              </p>
+              <p className="preview-message">Favourite this profile to request approval before viewing full details.</p>
+              <FavouriteButton profileId={previewProfile.name.toLowerCase()} name={previewProfile.name} />
+              {canView(previewProfile.name.toLowerCase()) && <Link to={`/profile/${previewProfile.name.toLowerCase()}`}>View full profile</Link>}
             </div>
           </article>
         </div>
