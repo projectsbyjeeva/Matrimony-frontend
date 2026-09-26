@@ -43,7 +43,7 @@
 .feature-card svg { flex-shrink: 0; color: var(--secondary); font-size: 18px; }
 .hero-image-wrapper { position: relative; width: 100%; min-height: 600px; display: flex; justify-content: flex-end; align-items: flex-end; z-index: 2; }
 .hero-image-wrapper::after { display: none; }
-.hero-img { position: absolute; right: -90px; bottom: -40px; width: 760px; max-width: none; height: auto; object-fit: contain; z-index: 2; -webkit-mask-image: radial-gradient(ellipse 72% 76% at 54% 50%, #000 58%, rgba(0,0,0,.82) 73%, transparent 100%); mask-image: radial-gradient(ellipse 72% 76% at 54% 50%, #000 58%, rgba(0,0,0,.82) 73%, transparent 100%); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
+.hero-img { position: absolute; right: -50px; bottom: -40px; width: 610px; max-width: none; height: auto; object-fit: contain; z-index: 2; -webkit-mask-image: radial-gradient(ellipse 72% 76% at 54% 50%, #000 58%, rgba(0,0,0,.82) 73%, transparent 100%); mask-image: radial-gradient(ellipse 72% 76% at 54% 50%, #000 58%, rgba(0,0,0,.82) 73%, transparent 100%); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
 .circle { display: none; position: absolute; border-radius: 50%; pointer-events: none; }
 .circle-one { width: 380px; height: 380px; top: -110px; right: -120px; background: #fde8eb; z-index: 0; }
 .circle-two { width: 220px; height: 220px; left: -70px; bottom: -50px; background: #fff1cf; z-index: 1; }
@@ -72,7 +72,7 @@ html[lang="ta"] .hero .feature-card {
 @media (min-width: 1281px) {
   .hero-container { width: min(1500px,calc(100% - 60px)); padding-left: 0; padding-right: 0; grid-template-columns: 43% 57%; gap: 0; }
   .hero-content { max-width: 620px; margin-left: 0; padding-left: 0; }
-  .hero-img { width: 780px; right: -40px; bottom: -50px; }
+  .hero-img { width: 620px; right: 0; bottom: -50px; }
 }
 
 @media (max-width: 1280px) {
@@ -80,7 +80,7 @@ html[lang="ta"] .hero .feature-card {
   .hero-content h1 { font-size: 55px; }
   .hero-content p { font-size: 16px; }
   .hero-image-wrapper { min-height: 550px; }
-  .hero-img { width: 680px; right: -110px; }
+  .hero-img { width: 540px; right: -70px; }
 }
 
 @media (max-width: 1024px) {
@@ -93,7 +93,7 @@ html[lang="ta"] .hero .feature-card {
   .feature-card { min-height: 38px; padding: 8px 10px; font-size: 10px; }
   .feature-card svg { font-size: 14px; }
   .hero-image-wrapper { min-height: 500px; }
-  .hero-img { width: 570px; right: -135px; bottom: -20px; }
+  .hero-img { width: 450px; right: -95px; bottom: -20px; }
 }
 
 @media (max-width: 768px) {
