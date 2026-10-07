@@ -400,7 +400,7 @@ export default function Register({
             <div>
               <div className="register-brand">
                 <h2>VALLUVAN</h2>
-                <p>MATRIMONY</p>
+                <p>MANAMAALAI</p>
               </div>
 
               <h3>
@@ -458,7 +458,7 @@ export default function Register({
           <main className="register-main">
             <div className="mobile-brand">
               <h2>VALLUVAN</h2>
-              <p>MATRIMONY</p>
+              <p>MANAMAALAI</p>
             </div>
 
             <div className="register-title-section">

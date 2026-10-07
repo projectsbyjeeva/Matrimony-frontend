@@ -49,7 +49,7 @@ export default function Features() {
         <div className="features-heading">
           <span>Why Choose</span>
 
-          <h2>Valluvan Matrimony?</h2>
+          <h2>Valluvan Manamaalai?</h2>
 
           <div className="heading-design">
             <span></span>

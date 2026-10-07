@@ -24,7 +24,7 @@ export default function CTA() {
 
             <p>
               Join thousands of happy couples who found their soulmate
-              through Valluvan Matrimony.
+              through Valluvan Manamaalai.
             </p>
 
             <button className="primary-btn">

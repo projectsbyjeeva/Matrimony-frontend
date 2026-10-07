@@ -17,7 +17,7 @@ export default function ProfileDetails() {
   useEffect(() => {
     if (!profile) return;
     const previousTitle = document.title;
-    document.title = `${profile.name} - Valluvan Matrimony`;
+    document.title = `${profile.name} - Valluvan Manamaalai`;
     return () => { document.title = previousTitle; };
   }, [profile]);
 
@@ -46,10 +46,10 @@ export default function ProfileDetails() {
 
           <article className="profile-details-card" key={profile.id}>
             <div className="profile-print-brand">
-              <img src={logoImage} alt="Valluvan Matrimony" />
+              <img src={logoImage} alt="Valluvan Manamaalai" />
               <div>
                 <strong>VALLUVAN</strong>
-                <span>MATRIMONY</span>
+                <span>MANAMAALAI</span>
               </div>
             </div>
 

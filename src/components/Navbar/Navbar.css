@@ -151,16 +151,27 @@
     letter-spacing: 0.4px;
 }
 
+.logo-text h2.logo-title-tamil {
+    font-family: "Noto Sans Tamil", sans-serif;
+    letter-spacing: 0;
+}
+
 .logo-text span {
-    margin-top: 6px;
+    margin-top: 7px;
 
     color: var(--secondary);
 
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     line-height: 1;
 
-    letter-spacing: 5px;
+    letter-spacing: 3.5px;
+}
+
+.logo-text span.logo-subtitle-tamil {
+    font-family: "Noto Sans Tamil", sans-serif;
+    font-size: 17px;
+    letter-spacing: 0;
 }
 
 /* =========================================================
@@ -403,6 +414,12 @@ button.nav-link {
     color: var(--primary);
 }
 
+.mobile-nav a.active,
+.mobile-scroll-link.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
 /* =========================================================
    MEDIUM DESKTOP
 ========================================================= */
@@ -592,11 +609,15 @@ button.nav-link {
     }
 
     .logo-text span {
-        margin-top: 5px;
+        margin-top: 6px;
 
-        font-size: 9px;
+        font-size: 12px;
 
-        letter-spacing: 3.4px;
+        letter-spacing: 2.4px;
+    }
+
+    .logo-text span.logo-subtitle-tamil {
+        font-size: 12px;
     }
 
     .mobile-menu {

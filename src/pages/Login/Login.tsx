@@ -153,7 +153,7 @@ export default function Login({
             <div>
               <div className="login-brand">
                 <h2>VALLUVAN</h2>
-                <p>MATRIMONY</p>
+                <p>MANAMAALAI</p>
               </div>
 
               <span className="login-side-badge">
@@ -210,7 +210,7 @@ export default function Login({
           <main className="login-main">
             <div className="login-mobile-brand">
               <h2>VALLUVAN</h2>
-              <p>MATRIMONY</p>
+              <p>MANAMAALAI</p>
             </div>
 
             <div className="login-heading">
@@ -437,7 +437,7 @@ export default function Login({
               </button>
 
               <div className="login-divider-text">
-                <span>New to Valluvan Matrimony?</span>
+                <span>New to Valluvan Manamaalai?</span>
               </div>
 
               <button

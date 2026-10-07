@@ -152,7 +152,7 @@ export default function SearchBar() {
         <div className="advanced-search-shell">
           <aside className="advanced-search-intro">
             <span className="intro-eyebrow">
-              VALLUVAN MATRIMONY
+              VALLUVAN MANAMAALAI
             </span>
 
             <h2>
@@ -550,7 +550,7 @@ export default function SearchBar() {
                   <span>DIRECT PROFILE SEARCH</span>
                   <h4>Already know the Profile ID?</h4>
                   <p>
-                    Enter the Valluvan Matrimony profile ID
+                    Enter the Valluvan Manamaalai profile ID
                     to open the matching profile directly.
                   </p>
 

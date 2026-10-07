@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 
 import { FaGlobe, FaUserCircle } from "react-icons/fa";
@@ -24,10 +24,45 @@ export default function Navbar({
   const registerClick = onRegisterClick || openRegister;
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const { language, setLanguage } = useLanguage();
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setActiveSection(location.pathname === "/search" ? "search" : "");
+      return;
+    }
+
+    const updateActiveSection = () => {
+      const threshold = 120;
+      const contact = document.getElementById("contact");
+      const stories = document.getElementById("success-stories");
+      const isSectionAtThreshold = (section: HTMLElement | null) => {
+        if (!section) return false;
+        const bounds = section.getBoundingClientRect();
+        return bounds.top <= threshold && bounds.bottom > threshold;
+      };
+
+      if (isSectionAtThreshold(contact)) {
+        setActiveSection("contact");
+      } else if (isSectionAtThreshold(stories)) {
+        setActiveSection("success-stories");
+      } else {
+        setActiveSection("home");
+      }
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
+  }, [location.pathname, location.hash]);
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -69,32 +104,36 @@ export default function Navbar({
           <div className="logo-image-wrapper">
             <img
               src={logoImage}
-              alt="Valluvan Matrimony Logo"
+              alt="Valluvan Manamaalai Logo"
               className="logo-image"
             />
           </div>
 
           <div className="logo-text">
-            <h2>VALLUVAN</h2>
-            <span>MATRIMONY</span>
+            <h2 className={language === "ta" ? "logo-title-tamil" : undefined}>
+              {language === "ta" ? "வள்ளுவன்" : "VALLUVAN"}
+            </h2>
+            <span className={language === "ta" ? "logo-subtitle-tamil" : undefined}>
+              {language === "ta" ? "மணமாலை" : "MANAMAALAI"}
+            </span>
           </div>
         </NavLink>
 
         {/* Desktop Menu */}
         <nav className="nav-menu">
 
-          <NavLink to="/" end className="nav-link">
+          <NavLink to="/" end className={() => `nav-link${activeSection === "home" ? " active" : ""}`}>
             Home
           </NavLink>
 
-          <NavLink to="/search" className="nav-link">
+          <NavLink to="/search" className={() => `nav-link${activeSection === "search" ? " active" : ""}`}>
             Search
           </NavLink>
 
           {/* Success Stories - Same Page Scroll */}
           <button
             type="button"
-            className="nav-link nav-scroll-btn"
+            className={`nav-link nav-scroll-btn${activeSection === "success-stories" ? " active" : ""}`}
             onClick={() => scrollToSection("success-stories")}
           >
             Success Stories
@@ -103,7 +142,7 @@ export default function Navbar({
           {/* Contact - Scroll to Footer */}
           <button
             type="button"
-            className="nav-link nav-scroll-btn"
+            className={`nav-link nav-scroll-btn${activeSection === "contact" ? " active" : ""}`}
             onClick={() => scrollToSection("contact")}
           >
             Contact
@@ -183,17 +222,17 @@ export default function Navbar({
       {/* Mobile Navigation */}
       <div id="mobile-navigation" className={`mobile-nav ${menuOpen ? "show" : ""}`}>
 
-        <NavLink to="/" end onClick={closeMenu}>
+        <NavLink to="/" end className={() => activeSection === "home" ? "active" : ""} onClick={closeMenu}>
           Home
         </NavLink>
 
-        <NavLink to="/search" onClick={closeMenu}>
+        <NavLink to="/search" className={() => activeSection === "search" ? "active" : ""} onClick={closeMenu}>
           Search
         </NavLink>
 
         <button
           type="button"
-          className="mobile-scroll-link"
+          className={`mobile-scroll-link${activeSection === "success-stories" ? " active" : ""}`}
           onClick={() => scrollToSection("success-stories")}
         >
           Success Stories
@@ -201,7 +240,7 @@ export default function Navbar({
 
         <button
           type="button"
-          className="mobile-scroll-link"
+          className={`mobile-scroll-link${activeSection === "contact" ? " active" : ""}`}
           onClick={() => scrollToSection("contact")}
         >
           Contact

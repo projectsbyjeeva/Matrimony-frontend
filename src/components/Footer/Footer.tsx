@@ -1,4 +1,5 @@
 import "./Footer.css";
+import { useLanguage } from "../../context/LanguageContext";
 
 // import logo from "../../assets/images/logo.png";
 
@@ -13,6 +14,8 @@ import {
 } from "react-icons/fa";
 
 export default function Footer() {
+  const { language } = useLanguage();
+
   return (
     <footer className="footer">
 
@@ -30,9 +33,13 @@ export default function Footer() {
 
               <div>
 
-                <h2>VALLUVAN</h2>
+                <h2 className={language === "ta" ? "footer-brand-tamil" : undefined}>
+                  {language === "ta" ? "வள்ளுவன்" : "VALLUVAN"}
+                </h2>
 
-                <span>MATRIMONY</span>
+                <span className={language === "ta" ? "footer-brand-subtitle-tamil" : undefined}>
+                  {language === "ta" ? "மணமாலை" : "MANAMAALAI"}
+                </span>
 
               </div>
 
@@ -126,7 +133,9 @@ export default function Footer() {
 
         <div className="footer-bottom">
 
-          © 2026 Valluvan Matrimony. All Rights Reserved.
+          {language === "ta"
+            ? "© 2026 வள்ளுவன் மணமாலை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+            : "© 2026 Valluvan Manamaalai. All Rights Reserved."}
 
         </div>
 

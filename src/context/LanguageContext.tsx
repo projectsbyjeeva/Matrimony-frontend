@@ -18,8 +18,9 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 const tamilTranslations: Record<string, string> = {
   VALLUVAN: "வள்ளுவன்",
-  MATRIMONY: "திருமண சேவை",
-  "Valluvan Matrimony": "வள்ளுவன் திருமண சேவை",
+  MATRIMONY: "மணமாலை",
+  MANAMAALAI: "மணமாலை",
+  "Valluvan Manamaalai": "வள்ளுவன் மணமாலை",
   Home: "முகப்பு",
   Search: "தேடல்",
   "Success Stories": "வெற்றிக் கதைகள்",
@@ -144,7 +145,7 @@ Object.assign(tamilTranslations, {
   "Enter 6-digit OTP": "6 இலக்க ஒருமுறை கடவுச்சொல்லை உள்ளிடவும்",
   "Create Account": "கணக்கை உருவாக்கவும்",
   "Keep me logged in": "என்னை உள்நுழைந்த நிலையில் வைத்திருக்கவும்",
-  "New to Valluvan Matrimony?": "வள்ளுவன் திருமண சேவைக்குப் புதியவரா?",
+  "New to Valluvan Manamaalai?": "வள்ளுவன் மணமாலைக்குப் புதியவரா?",
   "Your account information is protected.": "உங்கள் கணக்குத் தகவல்கள் பாதுகாக்கப்படுகின்றன.",
   "Profile Type": "சுயவிவர வகை",
   "Contact Person": "தொடர்பு நபர்",

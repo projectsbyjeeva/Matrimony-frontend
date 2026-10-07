@@ -19,7 +19,7 @@ const stories = [
     image: storyOne,
     name: "Arun & Priya",
     location: "Coimbatore",
-    text: "We found each other when we least expected. Thank you Valluvan Matrimony for making our journey so special.",
+    text: "We found each other when we least expected. Thank you Valluvan Manamaalai for making our journey so special.",
     joined: "Feb 2024",
     married: "Jun 2024",
     tone: "rose",
@@ -37,7 +37,7 @@ const stories = [
     image: storyThree,
     name: "Vignesh & Harini",
     location: "Erode",
-    text: "The best decision we made. We found our soulmate through Valluvan Matrimony.",
+    text: "The best decision we made. We found our soulmate through Valluvan Manamaalai.",
     joined: "Mar 2024",
     married: "Jul 2024",
     tone: "green",
@@ -68,7 +68,7 @@ export default function SuccessStories() {
           <span>Real Stories. Real Connections.</span>
           <h2>Success Stories</h2>
           <div className="stories-title-divider"><FaHeart /></div>
-          <p>Every love story is unique and beautiful.<br />Here are some of the happy couples who found their perfect match with Valluvan Matrimony.</p>
+          <p>Every love story is unique and beautiful.<br />Here are some of the happy couples who found their perfect match with Valluvan Manamaalai.</p>
         </header>
 
         <div className="stories-carousel">

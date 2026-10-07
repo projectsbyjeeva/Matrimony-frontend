@@ -56,6 +56,12 @@
 
 }
 
+.footer-logo .footer-brand-tamil,
+.footer-logo .footer-brand-subtitle-tamil{
+    font-family:"Noto Sans Tamil", sans-serif;
+    letter-spacing:0;
+}
+
 .footer-column p{
 
     color:#d7d7d7;
